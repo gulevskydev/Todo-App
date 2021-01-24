@@ -11,6 +11,6 @@
   "rules": {
     "quotes": [2, "single", { "avoidEscape": true }],
     "max-len": "off",
-    "object-shorthand": ["error", "never"]
+    "object-shorthand": ["error", "always"]
   }
 }
