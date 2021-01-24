@@ -15,7 +15,14 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import './assets/css/base.scss';
+
+body {
+  background-color: $bg-color-1;
+  color: $font-main;
+}
+
 #app {
   font-family: 'Oswald', sans-serif;
 }
