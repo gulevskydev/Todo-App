@@ -1,12 +1,15 @@
 <template>
   <div class="container">
-    <h1>Test</h1>
+    <app-task />
   </div>
 </template>
 
 <script>
+import AppTask from './AppTask.vue';
+
 export default {
   name: 'AppContainer',
+  components: { AppTask },
 };
 </script>
 
