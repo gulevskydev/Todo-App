@@ -2,15 +2,32 @@
   <div
     class="task__container flex justify-center flex-col items-start w-3/5 px-12"
   >
-    <div class="task__wrapper flex flex-col justify-center content-start">
-      <h2 class="task__day font-bold my-4 uppercase text-left">Сегодня</h2>
-      <div v-for="task of storeOfTasks" :key="task.id">
-        <app-task-item :data="task.data"> </app-task-item>
+    <div>
+      <div
+        v-for="(column, $columnIndex) of tasks"
+        :key="column.id"
+        class="task__day font-bold my-4 uppercase text-left"
+        @drop="moveTask($event, column.todos)"
+        @dragover.prevent
+        @dragenter.prevent
+      >
+        <h2 class="task__wrapper flex flex-col justify-center content-start">
+          {{ column.name }}
+        </h2>
+
+        <div
+          v-for="(task, $taskIndex) of column.todos"
+          :key="task.id"
+          draggable
+          @dragstart="takeTask($event, $taskIndex, $columnIndex)"
+        >
+          <app-task-item :data="task.data"> </app-task-item>
+        </div>
       </div>
 
-      <h2 class="task__day font-bold my-4 uppercase text-left">Завтра</h2>
+      <!-- <h2 class="task__day font-bold my-4 uppercase text-left">Завтра</h2>
       <h2 class="task__day font-bold my-4 uppercase text-left">След. неделя</h2>
-      <h2 class="task__day font-bold my-4 uppercase text-left">Потом</h2>
+      <h2 class="task__day font-bold my-4 uppercase text-left">Потом</h2> -->
     </div>
     <div class="input__container flex items-center w-full">
       <input
@@ -48,11 +65,12 @@ export default {
   data: function () {
     return {
       count: 0,
+      columns: ['Сегодня', 'Завтра', 'След. неделя', 'Потом'],
     };
   },
 
   computed: {
-    ...mapGetters(['storeInputTask', 'storeOfTasks']),
+    ...mapGetters(['storeInputTask', 'tasks']),
 
     inputTask: {
       get() {
@@ -69,6 +87,7 @@ export default {
     ...mapActions({
       updateInputTask: 'updateInputTask',
       addNewTask: 'addNewTask',
+      moveTaskInDays: 'moveTaskInDays',
     }),
 
     addTask() {
@@ -82,6 +101,24 @@ export default {
 
     clearInput() {
       this.updateInputTask('');
+    },
+
+    takeTask(e, taskIndex, fromColumn) {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.dropEffect = 'move';
+      console.log('DRAG');
+
+      e.dataTransfer.setData('task-index', taskIndex);
+      e.dataTransfer.setData('from-column', fromColumn);
+    },
+
+    moveTask(e, toTask) {
+      const fromColumnIndex = e.dataTransfer.getData('from-column');
+      const taskIndex = e.dataTransfer.getData('task-index');
+      const fromTasks = this.tasks[fromColumnIndex].todos;
+      console.log(fromTasks, 'fromTasks', toTask, 'toTasks', taskIndex);
+
+      this.moveTaskInDays({ fromTasks, toTask, taskIndex });
     },
   },
 };

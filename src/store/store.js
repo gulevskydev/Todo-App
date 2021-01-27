@@ -11,14 +11,35 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     inputTask: '',
-    storeOfTasks: [
+    tasks: [
       {
+        name: 'Сегодня',
         id: 1,
-        data: 'Купить молоко',
+        todos: [
+          {
+            id: 1,
+            data: 'Купить молоко',
+          },
+          {
+            id: 2,
+            data: 'Купить сок',
+          },
+        ],
       },
       {
+        name: 'Завтра',
         id: 2,
-        data: 'Купить сок',
+        todos: [],
+      },
+      {
+        name: 'След. Неделя',
+        id: 3,
+        todos: [],
+      },
+      {
+        name: 'Потом',
+        id: 4,
+        todos: [],
       },
     ],
   },

@@ -44,6 +44,7 @@ module.exports = {
         ignorePropertyModificationsFor: ['state'],
       },
     ],
-    'object-shorthand': ['error', 'properties'],
+    'no-param-reassign': [2, { props: false }],
+    'object-shorthand': ['error', 'consistent-as-needed'],
   },
 };

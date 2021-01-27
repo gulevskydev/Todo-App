@@ -1,8 +1,8 @@
 const storeInputTask = (state) => state.inputTask;
 
-const storeOfTasks = (state) => state.storeOfTasks;
+const tasks = (state) => state.tasks;
 
 export default {
   storeInputTask,
-  storeOfTasks,
+  tasks,
 };

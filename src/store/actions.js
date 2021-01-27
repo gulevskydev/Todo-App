@@ -6,7 +6,12 @@ const addNewTask = (context, payload) => {
   context.commit('ADD_NEW_TASK', payload);
 };
 
+const moveTaskInDays = (context, payload) => {
+  context.commit('MOVE_TASK', payload);
+};
+
 export default {
   updateInputTask,
   addNewTask,
+  moveTaskInDays,
 };
