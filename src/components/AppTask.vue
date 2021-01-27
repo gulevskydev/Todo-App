@@ -4,8 +4,8 @@
   >
     <div class="task__wrapper flex flex-col justify-center content-start">
       <h2 class="task__day font-bold my-4 uppercase text-left">Сегодня</h2>
-      <div v-for="task of storeOfTasks">
-        <app-task-item :key="task.id" :data="task.data"> </app-task-item>
+      <div v-for="task of storeOfTasks" :key="task.id">
+        <app-task-item :data="task.data"> </app-task-item>
       </div>
 
       <h2 class="task__day font-bold my-4 uppercase text-left">Завтра</h2>
@@ -22,6 +22,7 @@
 
       <div
         class="input__add-task flex justify-center overflow-hidden content-center ml-4 relative bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center"
+        @click="addTask"
       >
         <svg width="15" height="17" viewBox="0 0 15 17">
           <path
@@ -37,6 +38,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import AppTaskItem from './AppTaskItem';
+import { uuid } from '../utils';
 
 export default {
   name: 'AppTask',
@@ -66,7 +68,21 @@ export default {
   methods: {
     ...mapActions({
       updateInputTask: 'updateInputTask',
+      addNewTask: 'addNewTask',
     }),
+
+    addTask() {
+      this.addNewTask({
+        id: uuid(),
+        data: this.inputTask,
+      });
+
+      this.clearInput();
+    },
+
+    clearInput() {
+      this.updateInputTask('');
+    },
   },
 };
 </script>
