@@ -28,15 +28,8 @@
         </div>
       </div>
     </div>
-    <div class="input__container flex items-center w-full">
-      <input
-        v-model="inputTask"
-        type="text"
-        placeholder="Введите задачу, которую хотите добавить"
-        class="input__input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-      />
 
-      <!-- <div
+    <!-- <div
         class="input__add-task flex justify-center overflow-hidden content-center ml-4 relative bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center"
         @click="addTask"
         @keyup.enter="addTask"
@@ -49,74 +42,69 @@
         </svg>
       </div> -->
 
-      <div class="content">
-        <div class="menu">
-          <div class="menu-wrapper">
-            <ul class="menu-items">
-              <li class="menu-item">
-                <button class="menu-item-button">
-                  <i class="fa fa-reply-all"></i>
-                </button>
-                <div class="menu-item-bounce"></div>
-              </li>
-              <li class="menu-item">
-                <button class="menu-item-button">
-                  <i class="fa fa-inbox"></i>
-                </button>
-                <div class="menu-item-bounce"></div>
-              </li>
-              <li class="menu-item">
-                <button class="menu-item-button">
-                  <i class="fa fa-trash"></i>
-                </button>
-                <div class="menu-item-bounce"></div>
-              </li>
-            </ul>
-            <button class="menu-toggle-button">
-              <i class="fa fa-plus menu-toggle-icon"></i>
-            </button>
-          </div>
+    <div class="content">
+      <div class="menu">
+        <div class="menu-wrapper">
+          <ul class="menu-items">
+            <li class="menu-item">
+              <button class="menu-item-button" @click="openPopup">
+                <i class="fa fa-check-square-o"></i>
+              </button>
+              <div class="menu-item-bounce"></div>
+            </li>
+            <li class="menu-item">
+              <button class="menu-item-button">
+                <i class="fa fa-inbox"></i>
+              </button>
+              <div class="menu-item-bounce"></div>
+            </li>
+            <li class="menu-item">
+              <button class="menu-item-button">
+                <i class="fa fa-trash"></i>
+              </button>
+              <div class="menu-item-bounce"></div>
+            </li>
+          </ul>
+          <button class="menu-toggle-button">
+            <i class="fa fa-plus menu-toggle-icon"></i>
+          </button>
         </div>
       </div>
     </div>
+
+    <app-task-modal
+      :active="isPopupActive"
+      @closePopup="closePopup"
+    ></app-task-modal>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import AppTaskItem from './AppTaskItem';
-import { uuid } from '../utils';
+import AppTaskModal from './AppTaskModal';
 import { initAnimationButton } from '../UI/buttonAnimation';
 
 export default {
   name: 'AppTask',
 
-  components: { AppTaskItem },
+  components: { AppTaskItem, AppTaskModal },
 
   data: function () {
     return {
       count: 0,
       columns: ['Сегодня', 'Завтра', 'След. неделя', 'Потом'],
+      isPopupActive: false,
     };
+  },
+
+  computed: {
+    ...mapGetters(['tasks']),
   },
 
   mounted: function () {
     initAnimationButton();
     console.log('hello');
-  },
-
-  computed: {
-    ...mapGetters(['storeInputTask', 'tasks']),
-
-    inputTask: {
-      get() {
-        return this.storeInputTask;
-      },
-
-      set(value) {
-        this.updateInputTask(value);
-      },
-    },
   },
 
   methods: {
@@ -125,19 +113,6 @@ export default {
       addNewTask: 'addNewTask',
       moveTaskInDays: 'moveTaskInDays',
     }),
-
-    addTask() {
-      this.addNewTask({
-        id: uuid(),
-        data: this.inputTask,
-      });
-
-      this.clearInput();
-    },
-
-    clearInput() {
-      this.updateInputTask('');
-    },
 
     takeTask(e, taskIndex, fromColumn) {
       this.makeDataTransferDragEffects(e);
@@ -161,6 +136,14 @@ export default {
 
       this.moveTaskInDays({ fromTasks, toTask, taskIndex, toTaskPosition });
     },
+
+    openPopup() {
+      this.isPopupActive = true;
+    },
+
+    closePopup() {
+      this.isPopupActive = false;
+    },
   },
 };
 </script>
@@ -180,6 +163,10 @@ export default {
     height: 38px;
     cursor: pointer;
   }
+}
+
+button:focus {
+  outline: none;
 }
 
 .menu {
@@ -262,7 +249,7 @@ export default {
     .fa-inbox {
       transform: rotate(182deg);
     }
-    .fa-reply-all {
+    .fa-check-square-o {
       transform: rotate(-120deg);
     }
     .fa-trash {
