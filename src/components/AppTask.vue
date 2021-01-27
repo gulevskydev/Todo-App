@@ -19,15 +19,14 @@
           v-for="(task, $taskIndex) of column.todos"
           :key="task.id"
           draggable
+          @dragover.prevent
+          @dragenter.prevent
+          @drop.stop="moveTask($event, column.todos, $taskIndex)"
           @dragstart="takeTask($event, $taskIndex, $columnIndex)"
         >
           <app-task-item :data="task.data"> </app-task-item>
         </div>
       </div>
-
-      <!-- <h2 class="task__day font-bold my-4 uppercase text-left">Завтра</h2>
-      <h2 class="task__day font-bold my-4 uppercase text-left">След. неделя</h2>
-      <h2 class="task__day font-bold my-4 uppercase text-left">Потом</h2> -->
     </div>
     <div class="input__container flex items-center w-full">
       <input
@@ -104,21 +103,26 @@ export default {
     },
 
     takeTask(e, taskIndex, fromColumn) {
+      this.makeDataTransferDragEffects(e);
+      this.setDragDataTransfer(e);
+    },
+
+    makeDataTransferDragEffects(e) {
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.dropEffect = 'move';
-      console.log('DRAG');
+    },
 
+    setDragDataTransfer(e) {
       e.dataTransfer.setData('task-index', taskIndex);
       e.dataTransfer.setData('from-column', fromColumn);
     },
 
-    moveTask(e, toTask) {
+    moveTask(e, toTask, toTaskPosition) {
       const fromColumnIndex = e.dataTransfer.getData('from-column');
       const taskIndex = e.dataTransfer.getData('task-index');
       const fromTasks = this.tasks[fromColumnIndex].todos;
-      console.log(fromTasks, 'fromTasks', toTask, 'toTasks', taskIndex);
 
-      this.moveTaskInDays({ fromTasks, toTask, taskIndex });
+      this.moveTaskInDays({ fromTasks, toTask, taskIndex, toTaskPosition });
     },
   },
 };
