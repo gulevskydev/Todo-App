@@ -1,15 +1,25 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+// Store imports
+import mutations from './mutations';
+import actions from './actions';
+import getters from './getters';
+
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    count: 0,
+    inputTask: '',
+    storeOfTasks: [],
   },
-  mutations: {
-    increment(state) {
-      state.count++;
-    },
-  },
+
+  mutations,
+
+  actions,
+
+  getters,
+
+  // use strict mode only in production
+  strict: process.env.NODE_ENV !== 'production',
 });

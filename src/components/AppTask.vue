@@ -31,12 +31,35 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   name: 'AppTask',
+
   data: function () {
     return {
-      inputTask: '',
+      count: 0,
     };
+  },
+
+  computed: {
+    ...mapGetters(['storeInputTask']),
+
+    inputTask: {
+      get() {
+        return this.storeInputTask;
+      },
+
+      set(value) {
+        this.updateInputTask(value);
+      },
+    },
+  },
+
+  methods: {
+    ...mapActions({
+      updateInputTask: 'updateInputTask', // map `this.add()` to `this.$store.dispatch('increment')`
+    }),
   },
 };
 </script>
@@ -50,6 +73,7 @@ export default {
   &__input {
     color: #000;
   }
+
   &__add-task {
     width: 38px;
     height: 38px;
