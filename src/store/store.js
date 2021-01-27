@@ -11,7 +11,16 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     inputTask: '',
-    storeOfTasks: [],
+    storeOfTasks: [
+      {
+        id: 1,
+        data: 'Купить молоко',
+      },
+      {
+        id: 2,
+        data: 'Купить сок',
+      },
+    ],
   },
 
   mutations,

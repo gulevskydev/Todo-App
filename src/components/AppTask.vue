@@ -4,6 +4,10 @@
   >
     <div class="task__wrapper flex flex-col justify-center content-start">
       <h2 class="task__day font-bold my-4 uppercase text-left">Сегодня</h2>
+      <div v-for="task of storeOfTasks">
+        <app-task-item :key="task.id" :data="task.data"> </app-task-item>
+      </div>
+
       <h2 class="task__day font-bold my-4 uppercase text-left">Завтра</h2>
       <h2 class="task__day font-bold my-4 uppercase text-left">След. неделя</h2>
       <h2 class="task__day font-bold my-4 uppercase text-left">Потом</h2>
@@ -32,9 +36,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import AppTaskItem from './AppTaskItem';
 
 export default {
   name: 'AppTask',
+
+  components: { AppTaskItem },
 
   data: function () {
     return {
@@ -43,7 +50,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['storeInputTask']),
+    ...mapGetters(['storeInputTask', 'storeOfTasks']),
 
     inputTask: {
       get() {
@@ -58,7 +65,7 @@ export default {
 
   methods: {
     ...mapActions({
-      updateInputTask: 'updateInputTask', // map `this.add()` to `this.$store.dispatch('increment')`
+      updateInputTask: 'updateInputTask',
     }),
   },
 };

@@ -44,6 +44,6 @@ module.exports = {
         ignorePropertyModificationsFor: ['state'],
       },
     ],
-    'object-shorthand': ['error', 'always'],
+    'object-shorthand': ['error', 'properties'],
   },
 };
