@@ -29,19 +29,6 @@
       </div>
     </div>
 
-    <!-- <div
-        class="input__add-task flex justify-center overflow-hidden content-center ml-4 relative bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center"
-        @click="addTask"
-        @keyup.enter="addTask"
-      >
-        <svg width="15" height="17" viewBox="0 0 15 17">
-          <path
-            fill="#fff"
-            d="M8.438 3.563l4.593 4.593a.928.928 0 001.312-1.313L8.16.66a.933.933 0 00-1.32 0L.656 6.844a.928.928 0 001.312 1.313l4.595-4.594v10.504c0 .515.417.933.933.933h.008a.933.933 0 00.934-.933V3.563z"
-          ></path>
-        </svg>
-      </div> -->
-
     <div class="content">
       <div class="menu">
         <div class="menu-wrapper">
