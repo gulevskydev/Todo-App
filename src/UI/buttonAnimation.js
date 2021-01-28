@@ -22,34 +22,39 @@ export function initAnimationButton() {
   let on = false;
 
   $('.menu').on('mouseleave', function () {
-    pressHandler();
-    TweenMax.to($('.menu-toggle-icon'), 0.1, {
-      scale: 1,
-    });
+    console.log('leave');
+
     TweenMax.to($('.menu-toggle-button').children('.menu-toggle-icon'), 0.4, {
       rotation: 0,
       ease: Quint.easeInOut,
       force3D: true,
     });
+    closeMenu();
   });
 
-  $('.menu-toggle-button').on('mouseover', pressHandler);
   $('.menu-toggle-button').on('mouseover', function (event) {
     event.preventDefault();
     event.stopPropagation();
-  });
-
-  function pressHandler(event) {
-    on = !on;
-
     TweenMax.to($(this).children('.menu-toggle-icon'), 0.4, {
       rotation: 45,
       ease: Quint.easeInOut,
       force3D: true,
     });
+    openMenu();
+    console.log('over');
+  });
 
-    on ? openMenu() : closeMenu();
-  }
+  // function pressHandler(event) {
+  //   on = !on;
+
+  //   TweenMax.to($(this).children('.menu-toggle-icon'), 0.4, {
+  //     rotation: 45,
+  //     ease: Quint.easeInOut,
+  //     force3D: true,
+  //   });
+
+  //   on ? openMenu() : closeMenu();
+  // }
 
   function openMenu() {
     $('.menu-item').each(function (i) {
@@ -81,7 +86,6 @@ export function initAnimationButton() {
                   scaleY: 0.8,
                   force3D: true,
                   ease: Elastic.easeOut,
-                  easeParams: [1.1, 0.12],
                 });
               },
             });
@@ -127,7 +131,6 @@ export function initAnimationButton() {
                   scaleY: 1,
                   force3D: true,
                   ease: Elastic.easeOut,
-                  easeParams: [1.1, 0.12],
                 });
               },
             });
