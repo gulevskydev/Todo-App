@@ -52,8 +52,6 @@ export default {
     return {
       count: 0,
       columns: ['Сегодня', 'Завтра', 'След. неделя', 'Потом'],
-      isPopupActive: false,
-      closeMainButton: false,
     };
   },
 
@@ -90,11 +88,6 @@ export default {
       const fromTasks = this.tasks[fromColumnIndex].todos;
 
       this.moveTaskInDays({ fromTasks, toTask, taskIndex, toTaskPosition });
-    },
-
-    closePopup() {
-      this.isPopupActive = false;
-      this.closeMainButton = true;
     },
   },
 };

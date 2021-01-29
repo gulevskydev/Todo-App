@@ -4,7 +4,7 @@
       <div class="menu-wrapper">
         <ul class="menu-items">
           <li class="menu-item">
-            <button class="menu-item-button" @click="openPopup">
+            <button class="menu-item-button" @click.stop="openPopup">
               <i class="fa fa-check-square-o"></i>
             </button>
             <div class="menu-item-bounce"></div>

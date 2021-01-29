@@ -1,11 +1,10 @@
 <template>
-  <div class="modal-frame" :class="{ active: popupIsOpen }">
-    <div class="modal-body">
+  <div v-if="popupIsOpen" class="modal-frame" :class="{ active: popupIsOpen }">
+    <div class="modal-body" v-click-outside="closePopup">
       <div class="modal-inner">
         <button id="close" class="close" @click="closePopup">
           <i class="fa fa-times"></i>
         </button>
-        <!-- <div class="wrapper"> -->
         <input
           v-model="inputTask"
           type="text"
@@ -14,7 +13,6 @@
           @keydown.enter="addTask"
         />
         <span class="underline"></span>
-        <!-- </div> -->
         <div class="add-task__button" @click="addTask" @keydown.enter="addTask">
           Добавить
         </div>
@@ -31,6 +29,10 @@ import { uuid } from '../utils';
 export default {
   name: 'AppTaskModal',
 
+  data: function () {
+    return {};
+  },
+
   computed: {
     ...mapGetters(['storeInputTask', 'tasks', 'popupIsOpen']),
     inputTask: {
@@ -40,6 +42,23 @@ export default {
 
       set(value) {
         this.updateInputTask(value);
+      },
+    },
+  },
+
+  directives: {
+    'click-outside': {
+      bind: function (el, binding, vnode) {
+        el.clickOutsideEvent = function (event) {
+          if (!(el === event.target || el.contains(event.target))) {
+            vnode.context[binding.expression](event);
+          }
+        };
+        document.body.addEventListener('click', el.clickOutsideEvent);
+      },
+
+      unbind: function (el) {
+        document.body.removeEventListener('click', el.clickOutsideEvent);
       },
     },
   },
@@ -127,6 +146,7 @@ export default {
   bottom: 0;
   z-index: 50;
   visibility: hidden;
+  cursor: pointer;
 }
 
 .modal-body {
