@@ -45,7 +45,7 @@ module.exports = {
       },
     ],
     'no-param-reassign': [2, { props: false }],
-    'object-shorthand': ['error', 'consistent-as-needed'],
     'no-use-before-define': ['error', { functions: false, classes: true }],
+    'object-shorthand': 0,
   },
 };

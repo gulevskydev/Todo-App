@@ -37,6 +37,8 @@
 import { TweenMax, Elastic, Quad, Quint } from 'gsap';
 import $ from 'jquery';
 
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   name: 'AppMainButton',
 
@@ -47,11 +49,27 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters(['isOpenMenuButton']),
+  },
+
+  watch: {
+    isOpenMenuButton: function () {
+      if (this.isOpenMenuButton) {
+        this.onMouseLeave();
+      }
+    },
+  },
+
   mounted: function () {
     this.initBeautifulAddButton();
   },
 
   methods: {
+    ...mapActions({
+      popupIsOpen: 'popupIsOpen',
+    }),
+
     onMouseLeave() {
       TweenMax.to($('.menu-toggle-button').children('.menu-toggle-icon'), 0.4, {
         rotation: 0,
@@ -71,6 +89,10 @@ export default {
       });
 
       this.openMenu();
+    },
+
+    openPopup() {
+      this.popupIsOpen();
     },
 
     closeMenu() {

@@ -9,8 +9,11 @@ import getters from './getters';
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
+  /* eslint-disable */
   state: {
     inputTask: '',
+    isOpenMenuButton: false,
+    popupIsOpen: false,
     tasks: [
       {
         name: 'Сегодня',

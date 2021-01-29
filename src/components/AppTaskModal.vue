@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-frame" :class="{ active: active }">
+  <div class="modal-frame" :class="{ active: popupIsOpen }">
     <div class="modal-body">
       <div class="modal-inner">
         <button id="close" class="close" @click="closePopup">
@@ -30,15 +30,9 @@ import { uuid } from '../utils';
 
 export default {
   name: 'AppTaskModal',
-  props: {
-    active: {
-      type: Boolean,
-      default: false,
-    },
-  },
 
   computed: {
-    ...mapGetters(['storeInputTask', 'tasks']),
+    ...mapGetters(['storeInputTask', 'tasks', 'popupIsOpen']),
     inputTask: {
       get() {
         return this.storeInputTask;
@@ -54,6 +48,7 @@ export default {
     ...mapActions({
       updateInputTask: 'updateInputTask',
       addNewTask: 'addNewTask',
+      popupIsClosed: 'popupIsOpen',
     }),
 
     addTask() {
@@ -71,7 +66,7 @@ export default {
     },
 
     closePopup() {
-      this.$emit('closePopup');
+      this.popupIsClosed();
     },
   },
 };

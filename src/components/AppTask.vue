@@ -31,10 +31,7 @@
 
     <app-main-button></app-main-button>
 
-    <app-task-modal
-      :active="isPopupActive"
-      @closePopup="closePopup"
-    ></app-task-modal>
+    <app-task-modal></app-task-modal>
   </div>
 </template>
 
@@ -56,6 +53,7 @@ export default {
       count: 0,
       columns: ['Сегодня', 'Завтра', 'След. неделя', 'Потом'],
       isPopupActive: false,
+      closeMainButton: false,
     };
   },
 
@@ -63,16 +61,12 @@ export default {
     ...mapGetters(['tasks']),
   },
 
-  mounted: function () {
-    this.initBeautifulAddButton();
-    console.log('hello');
-  },
-
   methods: {
     ...mapActions({
       updateInputTask: 'updateInputTask',
       addNewTask: 'addNewTask',
       moveTaskInDays: 'moveTaskInDays',
+      popupIsOpen: 'popupIsOpen',
     }),
 
     takeTask(e, taskIndex, fromColumn) {
@@ -98,12 +92,9 @@ export default {
       this.moveTaskInDays({ fromTasks, toTask, taskIndex, toTaskPosition });
     },
 
-    openPopup() {
-      this.isPopupActive = true;
-    },
-
     closePopup() {
       this.isPopupActive = false;
+      this.closeMainButton = true;
     },
   },
 };
