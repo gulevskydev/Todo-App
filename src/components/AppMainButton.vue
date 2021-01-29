@@ -43,6 +43,7 @@ export default {
   data: function () {
     return {
       ANGLE: 120,
+      isMenuOpen: false,
     };
   },
 
@@ -62,6 +63,7 @@ export default {
     },
 
     onMouseOver() {
+      if (this.isMenuOpen) return;
       TweenMax.to($('.menu-toggle-button').children('.menu-toggle-icon'), 0.4, {
         rotation: 45,
         ease: Quint.easeInOut,
@@ -115,6 +117,7 @@ export default {
           ease: Quint.easeIn,
         });
       });
+      this.isMenuOpen = false;
     },
 
     openMenu() {
@@ -161,6 +164,7 @@ export default {
           ease: Quint.easeInOut,
         });
       });
+      this.isMenuOpen = true;
     },
 
     initBeautifulAddButton() {
