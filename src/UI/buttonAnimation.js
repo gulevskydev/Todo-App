@@ -44,18 +44,6 @@ export function initAnimationButton() {
     console.log('over');
   });
 
-  // function pressHandler(event) {
-  //   on = !on;
-
-  //   TweenMax.to($(this).children('.menu-toggle-icon'), 0.4, {
-  //     rotation: 45,
-  //     ease: Quint.easeInOut,
-  //     force3D: true,
-  //   });
-
-  //   on ? openMenu() : closeMenu();
-  // }
-
   function openMenu() {
     $('.menu-item').each(function (i) {
       const delay = i * 0.08;
