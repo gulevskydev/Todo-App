@@ -38,6 +38,14 @@ const IS_TAGS_POPUP_ACTIVE = (state) => {
   state.isTagsPopupOpen = !state.isTagsPopupOpen;
 };
 
+const UPDATE_ACTIVE_TAG = (state, id) => {
+  const tags = state.tags.map((tag) => {
+    if (tag.id === id) return { ...tag, active: true };
+    return { ...tag, active: false };
+  });
+  state.tags = [...tags];
+};
+
 export default {
   UPDATE_INPUT_TASK,
   ADD_NEW_TASK,
@@ -48,4 +56,5 @@ export default {
   ADD_NEW_SUB_TASK_INPUT,
   RESET_SUB_TASKS,
   IS_TAGS_POPUP_ACTIVE,
+  UPDATE_ACTIVE_TAG,
 };

@@ -4,8 +4,17 @@
     class="modal-frame"
     :class="{ active: storeIsTagsPopupOpen }"
   >
-    <div class="modal-body" v-click-outside="closePopup">
-      <div class="modal-inner"></div>
+    <div class="modal-body">
+      <div class="modal-inner">
+        <div
+          v-for="tag in tags"
+          :key="tag.id"
+          class="tags-modal__item"
+          @click.stop="updateActiveTag(tag.id)"
+        >
+          {{ tag.name }}
+        </div>
+      </div>
     </div>
 
     <div class="modal-overlay"></div>
@@ -13,7 +22,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'AppTagsModal',
@@ -23,15 +32,40 @@ export default {
       type: Boolean,
       default: () => false,
     },
+
+    tags: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   computed: {
     ...mapGetters(['storeIsTagsPopupOpen']),
   },
+
+  methods: {
+    ...mapActions({
+      updateTag: 'updateActiveTag',
+      isTagsPopupActive: 'isTagsPopupActive',
+    }),
+
+    updateActiveTag(id) {
+      this.updateTag(id);
+      this.closePopup();
+    },
+
+    closePopup() {
+      this.isTagsPopupActive();
+    },
+  },
 };
 </script>
 
 <style styled="scss" scoped>
+.tags-modal__item {
+  color: #000;
+  font-size: 18px;
+}
 .close {
   position: absolute;
   top: 10px;

@@ -127,6 +127,7 @@ export default {
       this.addNewTask({
         id: uuid(),
         mainTask: this.inputTask,
+        tag: this.activeTag,
         subTasks: this.storeInputSubTask,
       });
 
