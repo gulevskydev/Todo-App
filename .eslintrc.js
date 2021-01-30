@@ -47,5 +47,6 @@ module.exports = {
     'no-param-reassign': [2, { props: false }],
     'no-use-before-define': ['error', { functions: false, classes: true }],
     'object-shorthand': 0,
+    'prefer-destructuring': ['error', { object: true, array: false }],
   },
 };

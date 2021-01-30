@@ -3,32 +3,34 @@
     class="task__container flex justify-center flex-col items-start w-3/5 px-12"
   >
     <div>
+      <!-- Days -->
       <div
         v-for="(column, $columnIndex) of tasks"
         :key="column.id"
         class="task__day font-bold my-4 uppercase text-left"
-        @drop="moveTask($event, column.todos)"
-        @dragover.prevent
-        @dragenter.prevent
       >
+        <!-- Title of the day -->
         <h2 class="task__wrapper flex flex-col justify-center content-start">
           {{ column.name }}
         </h2>
 
-        <div
-          v-for="(task, $taskIndex) of column.todos"
-          :key="task.id"
-          draggable
-          @dragover.prevent
-          @dragenter.prevent
-          @drop.stop="moveTask($event, column.todos, $taskIndex)"
-          @dragstart="takeTask($event, $taskIndex, $columnIndex)"
+        <!-- Container -->
+        <container
+          group-name="1"
+          :get-child-payload="getChildPayload($columnIndex)"
+          @drop="onDrop($event, $columnIndex)"
         >
-          <app-task-item :data="task.mainTask"> </app-task-item>
-          <div v-for="subTask of task.subTasks" :key="subTask.id">
-            <app-subtask-item :data="subTask.input"></app-subtask-item>
-          </div>
-        </div>
+          <!-- Main task -->
+          <draggable v-for="task of column.todos" :key="task.id" draggable>
+            <app-task-item :data="task.mainTask" :tag="task.tag.name">
+            </app-task-item>
+
+            <!-- SubTask -->
+            <div v-for="subTask of task.subTasks" :key="subTask.id">
+              <app-subtask-item :data="subTask.input"></app-subtask-item>
+            </div>
+          </draggable>
+        </container>
       </div>
     </div>
 
@@ -40,6 +42,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { Container, Draggable } from 'vue-smooth-dnd';
 
 // Components import
 import AppTaskItem from './AppTaskItem';
@@ -50,7 +53,14 @@ import AppSubtaskItem from './AppSubtaskItem';
 export default {
   name: 'AppTask',
 
-  components: { AppTaskItem, AppTaskModal, AppMainButton, AppSubtaskItem },
+  components: {
+    AppTaskItem,
+    AppTaskModal,
+    AppMainButton,
+    AppSubtaskItem,
+    Draggable,
+    Container,
+  },
 
   data: function () {
     return {
@@ -67,31 +77,22 @@ export default {
     ...mapActions({
       updateInputTask: 'updateInputTask',
       addNewTask: 'addNewTask',
-      moveTaskInDays: 'moveTaskInDays',
+      moveTask: 'moveTask',
       popupIsOpen: 'popupIsOpen',
     }),
 
-    takeTask(e, taskIndex, fromColumn) {
-      this.makeDataTransferDragEffects(e);
-      this.setDragDataTransfer(e, taskIndex, fromColumn);
+    onDrop(dropResult, index) {
+      this.moveTask({ index, dropResult });
+    },
+    getGhostParent() {
+      return document.body;
+    },
+    onDropReady(dropResult) {
+      console.log('drop ready', dropResult);
     },
 
-    makeDataTransferDragEffects(e) {
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.dropEffect = 'move';
-    },
-
-    setDragDataTransfer(e, taskIndex, fromColumn) {
-      e.dataTransfer.setData('task-index', taskIndex);
-      e.dataTransfer.setData('from-column', fromColumn);
-    },
-
-    moveTask(e, toTask, toTaskPosition) {
-      const fromColumnIndex = e.dataTransfer.getData('from-column');
-      const taskIndex = e.dataTransfer.getData('task-index');
-      const fromTasks = this.tasks[fromColumnIndex].todos;
-
-      this.moveTaskInDays({ fromTasks, toTask, taskIndex, toTaskPosition });
+    getChildPayload(col) {
+      return (index) => this.tasks[col].todos[index];
     },
   },
 };

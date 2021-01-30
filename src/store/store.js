@@ -20,6 +20,7 @@ export const store = new Vuex.Store({
     isOpenMenuButton: false,
     popupIsOpen: false,
     isTagsPopupOpen: false,
+    editPopupIsOpen: false,
     tasks: [
       {
         name: 'Сегодня',

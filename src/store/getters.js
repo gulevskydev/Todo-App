@@ -19,6 +19,8 @@ const storeIsTagsPopupOpen = (state) => {
   return state.isTagsPopupOpen;
 };
 
+const editPopupIsOpen = (state) => state.editPopupIsOpen;
+
 export default {
   storeInputTask,
   tasks,
@@ -28,4 +30,5 @@ export default {
   storeInputSubTaskValue,
   storeTags,
   storeIsTagsPopupOpen,
+  editPopupIsOpen,
 };

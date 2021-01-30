@@ -38,6 +38,15 @@ const updateActiveTag = (context, payload) => {
   context.commit('UPDATE_ACTIVE_TAG', payload);
 };
 
+const popupEditTaskIsOpen = (context) => {
+  context.commit('POPUP_EDIT_TASK_IS_OPEN');
+};
+
+const moveTask = (context, payload) => {
+  console.log('PAYLOAD', payload);
+  context.commit('MOVE_TASK', payload);
+};
+
 export default {
   updateInputTask,
   addNewTask,
@@ -49,4 +58,6 @@ export default {
   resetSubTasks,
   isTagsPopupActive,
   updateActiveTag,
+  popupEditTaskIsOpen,
+  moveTask,
 };

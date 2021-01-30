@@ -15,9 +15,26 @@ const ADD_NEW_TASK = (state, payload) => {
   state.tasks[0].todos.push(payload);
 };
 
-const MOVE_TASK = (state, { fromTasks, toTask, taskIndex, toTaskPosition }) => {
-  const taskMove = fromTasks.splice(taskIndex, 1)[0];
-  toTask.splice(toTaskPosition, 0, taskMove);
+const MOVE_TASK = (state, { index, dropResult }) => {
+  const { removedIndex, addedIndex, payload } = dropResult;
+
+  if (removedIndex === null && addedIndex === null) return;
+
+  const result = state.tasks[index].todos.slice();
+  let itemToAdd = payload;
+
+  if (removedIndex !== null) {
+    itemToAdd = result.splice(removedIndex, 1)[0];
+  }
+
+  if (addedIndex !== null) {
+    result.splice(addedIndex, 0, itemToAdd);
+  }
+
+  state.tasks[index].todos = result.slice();
+  console.log(result, state.tasks, 'Results');
+
+  console.log(index, dropResult);
 };
 
 const CHANGE_MENU_OPEN_STATUS = (state) => {
@@ -46,6 +63,10 @@ const UPDATE_ACTIVE_TAG = (state, id) => {
   state.tags = [...tags];
 };
 
+const POPUP_EDIT_TASK_IS_OPEN = (state) => {
+  state.editPopupIsOpen = !state.editPopupIsOpen;
+};
+
 export default {
   UPDATE_INPUT_TASK,
   ADD_NEW_TASK,
@@ -57,4 +78,5 @@ export default {
   RESET_SUB_TASKS,
   IS_TAGS_POPUP_ACTIVE,
   UPDATE_ACTIVE_TAG,
+  POPUP_EDIT_TASK_IS_OPEN,
 };
