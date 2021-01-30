@@ -5,14 +5,20 @@
         <button id="close" class="close" @click="closePopup">
           <i class="fa fa-times"></i>
         </button>
-        <input
-          v-model="inputTask"
-          type="text"
-          placeholder="Введите задачу, которую хотите добавить"
-          class="input"
-          @keydown.enter="addTask"
-        />
-        <span class="underline"></span>
+
+        <div class="modal-title">Добавить новую задачу</div>
+
+        <div class="modal-input__container">
+          <input
+            v-model="inputTask"
+            type="text"
+            placeholder="Введите задачу, которую хотите добавить"
+            class="modal-input__input"
+            @keydown.enter="addTask"
+          />
+          <span class="underline"></span>
+        </div>
+
         <div class="add-task__button" @click="addTask" @keydown.enter="addTask">
           Добавить
         </div>
@@ -30,7 +36,9 @@ export default {
   name: 'AppTaskModal',
 
   data: function () {
-    return {};
+    return {
+      isFocused: false,
+    };
   },
 
   computed: {
@@ -326,18 +334,6 @@ export default {
 
 .modal-frame.active .modal-inner {
   opacity: 1;
-  -webkit-transform: scale(1);
-  -webkit-transition: 0.15s ease-in-out;
-  -webkit-transition-delay: 0.13s;
-  -moz-transform: scale(1);
-  -moz-transition: 0.15s ease-in-out;
-  -moz-transition-delay: 0.13s;
-  -ms-transform: scale(1);
-  -ms-transition: 0.15s ease-in-out;
-  -ms-transition-delay: 0.13s;
-  -o-transform: scale(1);
-  -o-transition: 0.15s ease-in-out;
-  -o-webkit-transition-delay: 0.13s;
   transform: scale(1);
   transition: 0.15s ease-in-out;
   transition-delay: 0.13s;
@@ -353,18 +349,6 @@ export default {
 */
 .modal-frame.leave .modal-body {
   opacity: 0;
-  -webkit-animation: popperOut 0.5s;
-  -webkit-transition: 0.3s ease-in-out;
-  -webkit-transition-delay: 0.2s;
-  -webkit-transform: scale(0.95);
-  -moz-animation: popperOut 0.5s;
-  -moz-transition: 0.3s ease-in-out;
-  -moz-transition-delay: 0.2s;
-  -moz-transform: scale(0.95);
-  -ms-animation: popperOut 0.5s;
-  -ms-transition: 0.3s ease-in-out;
-  -ms-transition-delay: 0.2s;
-  -ms-transform: scale(0.95);
   animation: popperOut 0.5s;
   transition: 0.3s ease-in-out;
   transition-delay: 0.2s;
@@ -373,14 +357,6 @@ export default {
 
 .modal-frame.leave .modal-inner {
   opacity: 0;
-  -webkit-transform: scale(0.95);
-  -webkit-transition: 0.15s ease-in-out;
-  -moz-transform: scale(0.95);
-  -moz-transition: 0.15s ease-in-out;
-  -ms-transform: scale(0.95);
-  -ms-transition: 0.15s ease-in-out;
-  -o-transform: scale(0.95);
-  -o-transition: 0.15s ease-in-out;
   transform: scale(0.95);
   transition: 0.15s ease-in-out;
 }
@@ -398,51 +374,40 @@ export default {
   width: 300px;
 }
 
-.input {
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  color: #555;
-  box-sizing: border-box;
-  font-family: 'Arvo';
-  font-size: 18px;
-  height: 50px;
-  left: 20%;
-  margin: -25px 0 0 -100px;
-  padding: 10px 0px;
-  position: relative;
-  top: 50%;
-  width: 100%;
+.modal-input {
+  $block: &;
 
-  &:focus {
+  &__input {
+    width: 100%;
     outline: none;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 10px;
+    transition: all 0.3s;
+
+    &:focus + .underline {
+      transform: scale(1);
+    }
   }
+
+  &__container {
+    position: relative;
+  }
+}
+
+.underline {
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  height: 2px;
+  left: 6px;
+  top: 32px;
+  background-color: dodgerblue;
+  transform: scale(0, 1);
+  transition: all 0.5s linear;
 }
 
 input::-webkit-input-placeholder {
   color: #aaa;
-}
-
-input:focus::-webkit-input-placeholder {
-  color: dodgerblue;
-}
-
-.input:focus + .underline {
-  transform: scale(1);
-}
-
-.underline {
-  background-color: dodgerblue;
-  display: inline-block;
-  height: 2px;
-  left: 5%;
-  margin-top: -4px;
-  position: absolute;
-  top: 78px;
-  -webkit-transform: scale(0, 1);
-  transform: scale(0, 1);
-  -webkit-transition: all 0.5s linear;
-  transition: all 0.5s linear;
-  width: 90%;
 }
 </style>
