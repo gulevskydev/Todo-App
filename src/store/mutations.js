@@ -7,6 +7,10 @@ const UPDATE_INPUT_SUB_TASK = (state, { id, input }) => {
   state.inputSubTask[id].input = input;
 };
 
+const RESET_SUB_TASKS = (state, payload) => {
+  state.inputSubTask = payload;
+};
+
 const ADD_NEW_TASK = (state, payload) => {
   state.tasks[0].todos.push(payload);
 };
@@ -38,4 +42,5 @@ export default {
   POPUP_IS_OPEN,
   UPDATE_INPUT_SUB_TASK,
   ADD_NEW_SUB_TASK_INPUT,
+  RESET_SUB_TASKS,
 };

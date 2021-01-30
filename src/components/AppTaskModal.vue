@@ -99,6 +99,7 @@ export default {
       popupIsClosed: 'popupIsOpen',
       updateInputSubTask: 'updateInputSubTask',
       addNewSubTaskInput: 'addNewSubTaskInput',
+      resetSubTasks: 'resetSubTasks',
     }),
 
     handleSubTaskInput(id, e) {
@@ -126,6 +127,7 @@ export default {
 
     clearInput() {
       this.updateInputTask('');
+      this.resetSubTasks([{ id: 1, input: '' }]);
     },
 
     closePopup() {

@@ -6,6 +6,10 @@ const updateInputSubTask = (context, payload) => {
   context.commit('UPDATE_INPUT_SUB_TASK', payload);
 };
 
+const resetSubTasks = (context, payload) => {
+  context.commit('RESET_SUB_TASKS', payload);
+};
+
 const addNewSubTaskInput = (context) => {
   context.commit('ADD_NEW_SUB_TASK_INPUT');
 };
@@ -34,4 +38,5 @@ export default {
   popupIsOpen,
   updateInputSubTask,
   addNewSubTaskInput,
+  resetSubTasks,
 };
