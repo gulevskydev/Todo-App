@@ -26,9 +26,12 @@
           <input
             :value="storeInputSubTaskValue($subTaskIndex)"
             @input="handleSubTaskInput($subTaskIndex, $event)"
+            type="text"
+            placeholder="Введите задачу, которую хотите добавить"
+            class="modal-input__input"
+            @keydown.enter="addTask"
           />
-          type="text" placeholder="Введите задачу, которую хотите добавить"
-          class="modal-input__input" @keydown.enter="addTask" />
+          />
         </div>
 
         <div class="add-task__button" @click="addTask" @keydown.enter="addTask">
@@ -106,7 +109,8 @@ export default {
     addTask() {
       this.addNewTask({
         id: uuid(),
-        data: this.inputTask,
+        mainTask: this.inputTask,
+        subTasks: this.storeInputSubTask,
       });
 
       this.clearInput();
@@ -179,6 +183,13 @@ export default {
   z-index: 50;
   visibility: hidden;
   cursor: pointer;
+}
+
+.add-task__button {
+  height: 56px;
+  border-radius: 8px;
+  background: black;
+  color: #fff;
 }
 
 .modal-body {

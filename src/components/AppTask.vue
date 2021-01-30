@@ -24,7 +24,10 @@
           @drop.stop="moveTask($event, column.todos, $taskIndex)"
           @dragstart="takeTask($event, $taskIndex, $columnIndex)"
         >
-          <app-task-item :data="task.data"> </app-task-item>
+          <app-task-item :data="task.mainTask"> </app-task-item>
+          <div v-for="subTask of task.subTasks" :key="subTask.id">
+            <app-subtask-item :data="subTask.input"></app-subtask-item>
+          </div>
         </div>
       </div>
     </div>
@@ -42,11 +45,12 @@ import { mapActions, mapGetters } from 'vuex';
 import AppTaskItem from './AppTaskItem';
 import AppTaskModal from './AppTaskModal';
 import AppMainButton from './AppMainButton';
+import AppSubtaskItem from './AppSubtaskItem';
 
 export default {
   name: 'AppTask',
 
-  components: { AppTaskItem, AppTaskModal, AppMainButton },
+  components: { AppTaskItem, AppTaskModal, AppMainButton, AppSubtaskItem },
 
   data: function () {
     return {

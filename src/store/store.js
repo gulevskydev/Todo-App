@@ -22,16 +22,7 @@ export const store = new Vuex.Store({
       {
         name: 'Сегодня',
         id: 1,
-        todos: [
-          {
-            id: 1,
-            data: 'Купить молоко',
-          },
-          {
-            id: 2,
-            data: 'Купить сок',
-          },
-        ],
+        todos: [],
       },
       {
         name: 'Завтра',
