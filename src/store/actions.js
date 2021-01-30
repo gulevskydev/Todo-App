@@ -2,6 +2,14 @@ const updateInputTask = (context, payload) => {
   context.commit('UPDATE_INPUT_TASK', payload);
 };
 
+const updateInputSubTask = (context, payload) => {
+  context.commit('UPDATE_INPUT_SUB_TASK', payload);
+};
+
+const addNewSubTaskInput = (context) => {
+  context.commit('ADD_NEW_SUB_TASK_INPUT');
+};
+
 const addNewTask = (context, payload) => {
   context.commit('ADD_NEW_TASK', payload);
 };
@@ -24,4 +32,6 @@ export default {
   moveTaskInDays,
   changeMenuOpenStatus,
   popupIsOpen,
+  updateInputSubTask,
+  addNewSubTaskInput,
 };

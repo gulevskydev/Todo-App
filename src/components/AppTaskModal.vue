@@ -6,7 +6,7 @@
           <i class="fa fa-times"></i>
         </button>
 
-        <div class="modal-title">Добавить новую задачу</div>
+        <div class="modal-title">Новая задача</div>
 
         <div class="modal-input__container">
           <input
@@ -17,6 +17,18 @@
             @keydown.enter="addTask"
           />
           <span class="underline"></span>
+        </div>
+
+        <div
+          v-for="(input, $subTaskIndex) of storeInputSubTask"
+          :key="$subTaskIndex"
+        >
+          <input
+            :value="storeInputSubTaskValue($subTaskIndex)"
+            @input="handleSubTaskInput($subTaskIndex, $event)"
+          />
+          type="text" placeholder="Введите задачу, которую хотите добавить"
+          class="modal-input__input" @keydown.enter="addTask" />
         </div>
 
         <div class="add-task__button" @click="addTask" @keydown.enter="addTask">
@@ -41,19 +53,6 @@ export default {
     };
   },
 
-  computed: {
-    ...mapGetters(['storeInputTask', 'tasks', 'popupIsOpen']),
-    inputTask: {
-      get() {
-        return this.storeInputTask;
-      },
-
-      set(value) {
-        this.updateInputTask(value);
-      },
-    },
-  },
-
   directives: {
     'click-outside': {
       bind: function (el, binding, vnode) {
@@ -71,12 +70,38 @@ export default {
     },
   },
 
+  computed: {
+    ...mapGetters([
+      'storeInputTask',
+      'tasks',
+      'popupIsOpen',
+      'storeInputSubTask',
+      'storeInputSubTaskValue',
+    ]),
+    inputTask: {
+      get() {
+        return this.storeInputTask;
+      },
+
+      set(value) {
+        this.updateInputTask(value);
+      },
+    },
+  },
+
   methods: {
     ...mapActions({
       updateInputTask: 'updateInputTask',
       addNewTask: 'addNewTask',
       popupIsClosed: 'popupIsOpen',
+      updateInputSubTask: 'updateInputSubTask',
+      addNewSubTaskInput: 'addNewSubTaskInput',
     }),
+
+    handleSubTaskInput(id, e) {
+      this.updateInputSubTask({ id, input: e.target.value });
+      if (this.isNeededToAddNewSubTaskInput()) this.addNewSubTaskInput();
+    },
 
     addTask() {
       this.addNewTask({
@@ -86,6 +111,13 @@ export default {
 
       this.clearInput();
       this.closePopup();
+    },
+
+    isNeededToAddNewSubTaskInput() {
+      return (
+        this.storeInputSubTask.filter(({ input }) => input.length === 0)
+          .length === 0
+      );
     },
 
     clearInput() {
@@ -127,10 +159,6 @@ export default {
   font-size: 16px;
   padding: 10px 5px;
   text-align: center;
-  -webkit-transition: 0.15s ease-in-out;
-  -moz-transition: 0.15s ease-in-out;
-  -ms-transition: 0.15s ease-in-out;
-  -o-transition: 0.15s ease-in-out;
   transition: 0.15s ease-in-out;
   width: 200px;
   display: block;
@@ -141,10 +169,6 @@ export default {
 .btn:hover {
   background: #5082b9;
 }
-
-/**
- *	Custom Modal
- */
 
 .modal-frame {
   position: absolute;
@@ -189,11 +213,6 @@ export default {
   transform: scale(0.5);
   transition: 0.2s ease-in-out;
 }
-
-/**
- *  Modal overlay
-*/
-
 .modal-overlay {
   position: absolute;
   top: 0;
@@ -218,10 +237,6 @@ export default {
   transform: scale(0.95);
 }
 
-/**
- *  Enter states
- */
-
 .modal-frame.active {
   visibility: visible;
   height: inherit;
@@ -229,10 +244,6 @@ export default {
 }
 
 .modal-frame.active .modal-body {
-  -webkit-animation: popperIn 0.45s;
-  -moz-animation: popperIn 0.45s;
-  -ms-animation: popperIn 0.45s;
-  -o-animation: popperIn 0.45s;
   animation: popperIn 0.45s;
 }
 
@@ -344,9 +355,6 @@ export default {
   visibility: visible;
 }
 
-/**
- *  Leave States
-*/
 .modal-frame.leave .modal-body {
   opacity: 0;
   animation: popperOut 0.5s;
@@ -382,7 +390,7 @@ export default {
     outline: none;
     border: none;
     border-bottom: 1px solid transparent;
-    padding: 10px;
+    padding: 10px 0;
     transition: all 0.3s;
 
     &:focus + .underline {
@@ -400,11 +408,18 @@ export default {
   display: inline-block;
   width: 100%;
   height: 2px;
-  left: 6px;
+  left: 0px;
   top: 32px;
   background-color: dodgerblue;
   transform: scale(0, 1);
   transition: all 0.5s linear;
+}
+
+.modal-title {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
 
 input::-webkit-input-placeholder {

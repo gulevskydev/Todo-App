@@ -12,6 +12,10 @@ export const store = new Vuex.Store({
   /* eslint-disable */
   state: {
     inputTask: '',
+    inputSubTask: [
+      { id: 1, input: '' },
+      { id: 2, input: '' },
+    ],
     isOpenMenuButton: false,
     popupIsOpen: false,
     tasks: [
