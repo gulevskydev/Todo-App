@@ -22,8 +22,7 @@
         >
           <!-- Main task -->
           <draggable v-for="task of column.todos" :key="task.id" draggable>
-            <app-task-item :data="task.mainTask" :tag="task.tag.name">
-            </app-task-item>
+            <app-task-item :task="task"> </app-task-item>
 
             <!-- SubTask -->
             <div v-for="subTask of task.subTasks" :key="subTask.id">

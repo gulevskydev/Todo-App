@@ -32,9 +32,6 @@ const MOVE_TASK = (state, { index, dropResult }) => {
   }
 
   state.tasks[index].todos = result.slice();
-  console.log(result, state.tasks, 'Results');
-
-  console.log(index, dropResult);
 };
 
 const CHANGE_MENU_OPEN_STATUS = (state) => {
@@ -63,8 +60,26 @@ const UPDATE_ACTIVE_TAG = (state, id) => {
   state.tags = [...tags];
 };
 
-const POPUP_EDIT_TASK_IS_OPEN = (state) => {
+const POPUP_EDIT_TASK_IS_OPEN = (state, id) => {
   state.editPopupIsOpen = !state.editPopupIsOpen;
+
+  // If before that moment pop up was not opened
+  if (state.editPopupIsOpen) {
+    state.tasks.forEach((day) =>
+      day.todos.forEach((task) => {
+        if (task.id === id) {
+          state.editingTask = task;
+        }
+      }),
+    );
+
+    /**
+     * Updating state modal pop up data depending on the edited task
+     */
+    state.inputTask = state.editingTask.mainTask;
+    state.inputSubTask = state.editingTask.subTasks;
+    UPDATE_ACTIVE_TAG(state, state.editingTask.tag.id);
+  }
 };
 
 export default {

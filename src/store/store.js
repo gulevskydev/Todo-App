@@ -21,6 +21,7 @@ export const store = new Vuex.Store({
     popupIsOpen: false,
     isTagsPopupOpen: false,
     editPopupIsOpen: false,
+    editingTask: {},
     tasks: [
       {
         name: 'Сегодня',

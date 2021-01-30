@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="task__name">
-      {{ data }}
+      {{ task.mainTask }}
     </div>
-    <div class="task__tag">{{ tag }}</div>
+    <div class="task__tag">{{ task.tag.name }}</div>
     <i class="fa fa-pencil-square-o" aria-hidden="true" @click="editTask"></i>
   </div>
 </template>
@@ -14,14 +14,9 @@ import { mapActions } from 'vuex';
 export default {
   name: 'AppTaskItem',
   props: {
-    data: {
-      type: String,
-      default: '',
-    },
-
-    tag: {
-      tag: String,
-      default: '',
+    task: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data: function () {
@@ -36,8 +31,7 @@ export default {
     }),
 
     editTask() {
-      console.log('Cliiick');
-      this.popupEditTaskIsOpen();
+      this.popupEditTaskIsOpen(this.task.id);
     },
   },
 };

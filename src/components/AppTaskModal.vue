@@ -1,5 +1,9 @@
 <template>
-  <div v-if="popupIsOpen" class="modal-frame" :class="{ active: popupIsOpen }">
+  <div
+    v-if="popupIsOpen || editPopupIsOpen"
+    class="modal-frame"
+    :class="{ active: popupIsOpen || editPopupIsOpen }"
+  >
     <div class="modal-body" v-click-outside="closePopup">
       <div class="modal-inner">
         <button id="close" class="close" @click="closePopup">
@@ -91,6 +95,7 @@ export default {
       'storeInputSubTask',
       'storeInputSubTaskValue',
       'storeTags',
+      'editPopupIsOpen',
     ]),
     inputTask: {
       get() {
@@ -116,6 +121,7 @@ export default {
       addNewSubTaskInput: 'addNewSubTaskInput',
       resetSubTasks: 'resetSubTasks',
       isTagsPopupActive: 'isTagsPopupActive',
+      popupEditTaskIsOpen: 'popupEditTaskIsOpen',
     }),
 
     handleSubTaskInput(id, e) {
@@ -152,7 +158,12 @@ export default {
     },
 
     closePopup() {
-      this.popupIsClosed();
+      // depending what we did - add new task or editing existed task
+      if (this.popupIsOpen) {
+        this.popupIsClosed();
+      } else {
+        this.popupEditTaskIsOpen();
+      }
     },
   },
 };

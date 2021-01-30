@@ -28,11 +28,6 @@ export default {
   name: 'AppTagsModal',
 
   props: {
-    isActive: {
-      type: Boolean,
-      default: () => false,
-    },
-
     tags: {
       type: Array,
       default: () => [],

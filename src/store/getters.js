@@ -21,6 +21,8 @@ const storeIsTagsPopupOpen = (state) => {
 
 const editPopupIsOpen = (state) => state.editPopupIsOpen;
 
+const editingTask = (state) => state.editingTask;
+
 export default {
   storeInputTask,
   tasks,
@@ -31,4 +33,5 @@ export default {
   storeTags,
   storeIsTagsPopupOpen,
   editPopupIsOpen,
+  editingTask,
 };
