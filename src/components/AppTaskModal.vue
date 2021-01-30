@@ -34,6 +34,11 @@
           />
         </div>
 
+        <div class="modal-input__tags" @click="openTagsPopup">
+          {{ activeTag.name }}
+        </div>
+        <app-tags-modal :tags="storeTags"></app-tags-modal>
+
         <div class="add-task__button" @click="addTask" @keydown.enter="addTask">
           Добавить
         </div>
@@ -47,8 +52,13 @@
 import { mapActions, mapGetters } from 'vuex';
 import { uuid } from '../utils';
 
+// Compontents
+import AppTagsModal from './AppTagsModal';
+
 export default {
   name: 'AppTaskModal',
+
+  components: { AppTagsModal },
 
   data: function () {
     return {
@@ -80,6 +90,7 @@ export default {
       'popupIsOpen',
       'storeInputSubTask',
       'storeInputSubTaskValue',
+      'storeTags',
     ]),
     inputTask: {
       get() {
@@ -89,6 +100,10 @@ export default {
       set(value) {
         this.updateInputTask(value);
       },
+    },
+
+    activeTag: function () {
+      return this.storeTags.find((tag) => tag.active);
     },
   },
 
@@ -100,6 +115,7 @@ export default {
       updateInputSubTask: 'updateInputSubTask',
       addNewSubTaskInput: 'addNewSubTaskInput',
       resetSubTasks: 'resetSubTasks',
+      isTagsPopupActive: 'isTagsPopupActive',
     }),
 
     handleSubTaskInput(id, e) {
@@ -123,6 +139,10 @@ export default {
         this.storeInputSubTask.filter(({ input }) => input.length === 0)
           .length === 0
       );
+    },
+
+    openTagsPopup() {
+      this.isTagsPopupActive();
     },
 
     clearInput() {
@@ -172,6 +192,12 @@ export default {
   overflow: hidden;
 }
 
+.modal-input__tags {
+  color: black;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
 .btn:hover {
   background: #5082b9;
 }
@@ -215,14 +241,6 @@ export default {
   position: relative;
   padding: 50px;
   opacity: 0;
-  -webkit-transform: scale(0.5);
-  -webkit-transition: 0.2s ease-in-out;
-  -moz-transform: scale(0.5);
-  -moz-transition: 0.2s ease-in-out;
-  -ms-transform: scale(0.5);
-  -ms-transition: 0.2s ease-in-out;
-  -o-transform: scale(0.5);
-  -o-transition: 0.2s ease-in-out;
   transform: scale(0.5);
   transition: 0.2s ease-in-out;
 }
@@ -235,18 +253,10 @@ export default {
   visibility: hidden;
   opacity: 0;
   background: #333;
-  -webkit-transition: 0.15s ease-in-out;
-  -moz-transition: 0.15s ease-in-out;
-  -ms-transition: 0.15s ease-in-out;
-  -o-transition: 0.15s ease-in-out;
   transition: 0.15s ease-in-out;
 }
 
 .modal-inner {
-  -webkit-transform: scale(0.95);
-  -moz-transform: scale(0.95);
-  -ms-transform: scale(0.95);
-  -o-transform: scale(0.95);
   transform: scale(0.95);
 }
 
@@ -260,34 +270,6 @@ export default {
   animation: popperIn 0.45s;
 }
 
-@-webkit-keyframes popperIn {
-  0% {
-    opacity: 0;
-    -webkit-transform: scale(1.06);
-  }
-  40% {
-    opacity: 1;
-  }
-
-  100% {
-    -webkit-transform: scale(1);
-  }
-}
-
-@-moz-keyframes popperIn {
-  0% {
-    opacity: 0;
-    -moz-transform: scale(1.06);
-  }
-  40% {
-    opacity: 1;
-  }
-
-  100% {
-    -moz-transform: scale(1);
-  }
-}
-
 @keyframes popperIn {
   0% {
     opacity: 0;
@@ -299,42 +281,6 @@ export default {
 
   100% {
     transform: scale(1);
-  }
-}
-
-@-webkit-keyframes popperOut {
-  0% {
-    opacity: 1;
-    -webkit-transform: scale(1);
-  }
-  30% {
-    opacity: 1;
-  }
-  40% {
-    -webkit-transform: scale(1.05);
-  }
-
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(1.15);
-  }
-}
-
-@-moz-keyframes popperOut {
-  0% {
-    opacity: 1;
-    -moz-transform: scale(1);
-  }
-  30% {
-    opacity: 1;
-  }
-  40% {
-    -moz-transform: scale(1.05);
-  }
-
-  100% {
-    opacity: 0;
-    -moz-transform: scale(1.15);
   }
 }
 
@@ -380,19 +326,6 @@ export default {
   opacity: 0;
   transform: scale(0.95);
   transition: 0.15s ease-in-out;
-}
-
-.wrapper {
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0px 2px 1px 0px #ddd;
-  box-sizing: border-box;
-  height: 300px;
-  left: 50%;
-  margin: -150px 0 0 -150px;
-  position: absolute;
-  top: 50%;
-  width: 300px;
 }
 
 .modal-input {

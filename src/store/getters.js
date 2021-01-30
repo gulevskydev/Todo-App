@@ -8,9 +8,15 @@ const popupIsOpen = (state) => state.popupIsOpen;
 
 const storeInputSubTask = (state) => state.inputSubTask;
 
+const storeTags = (state) => state.tags;
+
 const storeInputSubTaskValue = (state) => (id) => {
   console.log('Store', id, state);
   return state.inputSubTask[id].input;
+};
+
+const storeIsTagsPopupOpen = (state) => {
+  return state.isTagsPopupOpen;
 };
 
 export default {
@@ -20,4 +26,6 @@ export default {
   popupIsOpen,
   storeInputSubTask,
   storeInputSubTaskValue,
+  storeTags,
+  storeIsTagsPopupOpen,
 };

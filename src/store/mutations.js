@@ -34,6 +34,10 @@ const ADD_NEW_SUB_TASK_INPUT = (state) => {
   state.inputSubTask.push({ id: newId, input: '' });
 };
 
+const IS_TAGS_POPUP_ACTIVE = (state) => {
+  state.isTagsPopupOpen = !state.isTagsPopupOpen;
+};
+
 export default {
   UPDATE_INPUT_TASK,
   ADD_NEW_TASK,
@@ -43,4 +47,5 @@ export default {
   UPDATE_INPUT_SUB_TASK,
   ADD_NEW_SUB_TASK_INPUT,
   RESET_SUB_TASKS,
+  IS_TAGS_POPUP_ACTIVE,
 };

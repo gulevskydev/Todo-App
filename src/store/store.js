@@ -13,8 +13,13 @@ export const store = new Vuex.Store({
   state: {
     inputTask: '',
     inputSubTask: [{ id: 1, input: '' }],
+    tags: [
+      { id: 1, name: 'Работа', active: true },
+      { id: 2, name: 'Хобби', active: false },
+    ],
     isOpenMenuButton: false,
     popupIsOpen: false,
+    isTagsPopupOpen: false,
     tasks: [
       {
         name: 'Сегодня',
