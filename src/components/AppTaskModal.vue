@@ -159,11 +159,13 @@ export default {
 
     closePopup() {
       // depending what we did - add new task or editing existed task
-      if (this.popupIsOpen) {
-        this.popupIsClosed();
-      } else {
+      // if (this.popupIsOpen) {
+      this.popupIsClosed();
+      // } else {
+      if (this.editPopupIsOpen) {
         this.popupEditTaskIsOpen();
       }
+      // }
     },
   },
 };

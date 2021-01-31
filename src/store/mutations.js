@@ -12,6 +12,7 @@ const RESET_SUB_TASKS = (state, payload) => {
 };
 
 const ADD_NEW_TASK = (state, payload) => {
+  console.log(state, payload, 'Add new task', state.tasks[0]);
   state.tasks[0].todos.push(payload);
 };
 
@@ -63,6 +64,7 @@ const UPDATE_ACTIVE_TAG = (state, id) => {
 const POPUP_EDIT_TASK_IS_OPEN = (state, id) => {
   state.editPopupIsOpen = !state.editPopupIsOpen;
 
+  console.log(id, state, 'Id');
   // If before that moment pop up was not opened
   if (state.editPopupIsOpen) {
     state.tasks.forEach((day) =>

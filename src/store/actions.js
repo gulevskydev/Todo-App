@@ -14,8 +14,8 @@ const addNewSubTaskInput = (context) => {
   context.commit('ADD_NEW_SUB_TASK_INPUT');
 };
 
-const addNewTask = (context, payload) => {
-  context.commit('ADD_NEW_TASK', payload);
+const addNewTask = (context, task) => {
+  context.commit('ADD_NEW_TASK', task);
 };
 
 const moveTaskInDays = (context, payload) => {
