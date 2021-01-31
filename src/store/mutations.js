@@ -96,6 +96,23 @@ const POPUP_EDIT_TASK_IS_OPEN = (state, id) => {
   }
 };
 
+const UPDATE_COMPLETED_STATUS = (state, task) => {
+  state.tasks = state.tasks.map((day) => {
+    return {
+      ...day,
+      todos: day.todos.map((todo) => {
+        if (todo.id === task.id) {
+          return {
+            ...todo,
+            isCompleted: !todo.isCompleted,
+          };
+        }
+        return todo;
+      }),
+    };
+  });
+};
+
 export default {
   UPDATE_INPUT_TASK,
   ADD_NEW_TASK,
@@ -109,4 +126,5 @@ export default {
   UPDATE_ACTIVE_TAG,
   POPUP_EDIT_TASK_IS_OPEN,
   UPDATE_TASK,
+  UPDATE_COMPLETED_STATUS,
 };

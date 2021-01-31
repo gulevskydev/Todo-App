@@ -16,10 +16,18 @@
         <container
           group-name="1"
           :get-child-payload="getChildPayload($columnIndex)"
+          orientation="vertical"
           @drop="onDrop($event, $columnIndex)"
         >
           <!-- Main task -->
-          <draggable v-for="task of column.todos" :key="task.id" draggable>
+          <draggable
+            v-for="task of column.todos"
+            :key="task.id"
+            draggable
+            drag-start="handleDrag"
+            dragstart="handleDrag"
+            dragover.prevent
+          >
             <app-task-item :task="task"> </app-task-item>
 
             <!-- SubTask -->
@@ -59,6 +67,18 @@ export default {
     Container,
   },
 
+  mounted() {
+    document.addEventListener(
+      'dragstart',
+      function (event) {
+        // prevent default to allow drop
+        console.log('drag-over');
+        event.preventDefault();
+      },
+      false,
+    );
+  },
+
   data: function () {
     return {
       count: 0,
@@ -91,6 +111,13 @@ export default {
     getChildPayload(col) {
       return (index) => this.tasks[col].todos[index];
     },
+
+    handleDrag() {
+      console.log('dragstart');
+      document.addEventListener('mouseup', () => {
+        console.log('mouseup');
+      });
+    },
   },
 };
 </script>
@@ -102,6 +129,10 @@ export default {
 
 .task__container {
   width: 600px;
+
+  &::selection {
+    display: none;
+  }
 }
 
 .task__day {

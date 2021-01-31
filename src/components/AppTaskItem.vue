@@ -1,85 +1,30 @@
 <template>
   <div>
-    <svg viewBox="0 0 0 0" style="position: absolute; z-index: -1; opacity: 0">
-      <defs>
-        <linearGradient
-          id="boxGradient"
-          gradientUnits="userSpaceOnUse"
-          x1="0"
-          y1="0"
-          x2="25"
-          y2="25"
-        >
-          <stop offset="0%" stop-color="#27FDC7" />
-          <stop offset="100%" stop-color="#0FC0F5" />
-        </linearGradient>
-
-        <linearGradient id="lineGradient">
-          <stop offset="0%" stop-color="#0FC0F5" />
-          <stop offset="100%" stop-color="#27FDC7" />
-        </linearGradient>
-
-        <path
-          id="todo__line"
-          stroke="url(#lineGradient)"
-          d="M21 12.3h168v0.1z"
-        ></path>
-        <path
-          id="todo__box"
-          stroke="url(#boxGradient)"
-          d="M21 12.7v5c0 1.3-1 2.3-2.3 2.3H8.3C7 20 6 19 6 17.7V7.3C6 6 7 5 8.3 5h10.4C20 5 21 6 21 7.3v5.4"
-        ></path>
-        <path
-          id="todo__check"
-          stroke="url(#boxGradient)"
-          d="M10 13l2 2 5-5"
-        ></path>
-        <circle id="todo__circle" cx="13.5" cy="12.5" r="10"></circle>
-      </defs>
-    </svg>
-
-    <div class="todo-list">
-      <div class="todo-container">
-        <label class="todo">
-          <div
-            class="todo__state"
-            :class="{ _active: completed }"
-            type="checkbox"
-          />
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            viewBox="0 0 200 25"
-            class="todo__icon"
-            :class="{ _active: activeAnimation }"
-            @click.stop="setTaskCompletedStatus"
+    <div class="todo-list draggable-item">
+      <div class="todo-container" :class="{ _active: isCompletedTask }">
+        <span @click="setTaskCompletedStatus"></span>
+        <div class="todo__text">
+          {{ task.mainTask }}
+          <ins
+            ><i>{{ task.mainTask }}</i></ins
           >
-            <use xlink:href="#todo__line" class="todo__line"></use>
-            <use xlink:href="#todo__box" class="todo__box"></use>
-            <use xlink:href="#todo__check" class="todo__check"></use>
-            <!-- <use xlink:href="#todo__circle" class="todo__circle"></use> -->
-          </svg>
+        </div>
 
-          <div class="todo__text">
-            {{ task.mainTask }}
-          </div>
-          <div class="todo__options">
-            <div class="todo__task-tag">{{ task.tag.name }}</div>
-            <i
-              class="fa fa-pencil-square-o"
-              aria-hidden="true"
-              @click.stop="editTask"
-            ></i>
-          </div>
-        </label>
+        <div class="todo__options">
+          <div class="todo__task-tag">{{ task.tag.name }}</div>
+          <i
+            class="fa fa-pencil-square-o"
+            aria-hidden="true"
+            @click.stop="editTask"
+          ></i>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'AppTaskItem',
@@ -97,32 +42,31 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters(['tasks']),
+
+    isCompletedTask() {
+      console.log('isCompletd');
+      const idOfTheTask = this.task.id;
+      return this.tasks.some((day) =>
+        day.todos.some((todo) => todo.id === idOfTheTask && todo.isCompleted),
+      );
+    },
+  },
+
   methods: {
     ...mapActions({
       popupEditTaskIsOpen: 'popupEditTaskIsOpen',
+      updateCompletedTaskStatus: 'updateCompletedTaskStatus',
     }),
 
     editTask() {
       this.popupEditTaskIsOpen(this.task.id);
+      this.isCompletedTask();
     },
 
     setTaskCompletedStatus() {
-      this.updateAnimationState();
-      this.completed = !this.completed;
-    },
-
-    updateAnimationState() {
-      if (!this.completed) {
-        this.activeAnimation = true;
-      } else {
-        setTimeout(() => {
-          this.activeAnimation = false;
-        }, 800);
-      }
-    },
-
-    test(e) {
-      console.log('click', e.target);
+      this.updateCompletedTaskStatus(this.task);
     },
   },
 };
@@ -150,11 +94,30 @@ export default {
 }
 
 .fa {
-  z-index: 2;
+  cursor: pointer;
 }
 
 .todo__options {
   display: flex;
+}
+
+ins {
+  position: absolute;
+  display: block;
+  bottom: 0;
+  left: 0;
+  height: 0;
+  width: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  transition: height 300ms cubic-bezier(0.4, 0, 0.23, 1);
+
+  i {
+    position: absolute;
+    bottom: 0;
+    font-style: normal;
+    color: #4fc3f7;
+  }
 }
 
 .todo__state {
@@ -169,113 +132,96 @@ export default {
 }
 
 .todo__text {
+  position: relative;
+  display: flex;
   width: 100%;
-  margin-right: 20px;
-  color: saturate(#1b4a4e, 15%);
-  transition: all 0.5s / 2 linear 0.5s / 2;
-  z-index: 3;
+  margin-right: 30px;
+  align-items: center;
+  color: #9e9e9e;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.23, 1);
+  cursor: pointer;
 }
 
 .todo-container {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
-.todo__icon {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  margin: auto;
-  z-index: 1;
-  fill: none;
-  stroke: #27fdc7;
-  stroke-width: 2;
-  stroke-linejoin: round;
-  stroke-linecap: round;
+span {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  border: 1px solid #9e9e9e;
+  border-radius: 4px;
+  cursor: pointer;
+  transition-property: border, background;
+  transition: 250ms cubic-bezier(0.4, 0, 0.23, 1);
 
-  &._active {
-    z-index: 4;
+  &:active,
+  :focus {
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 
-.todo__line,
-.todo__box,
-.todo__check {
-  transition: stroke-dashoffset 0.5s cubic-bezier(0.9, 0, 0.5, 1);
-}
+._active {
+  span {
+    border: 1px solid #ffeb3b;
+    background: #ffeb3b;
+    animation: shrink-bounce 200ms cubic-bezier(0.4, 0, 0.23, 1);
 
-.todo__circle {
-  stroke: #27fdc7;
-  stroke-dasharray: 1 6;
-  stroke-width: 0;
-
-  transform-origin: 13.5px 12.5px;
-  transform: scale(0.4) rotate(0deg);
-  animation: none 0.5s linear; //cubic-bezier(.08,.56,.04,.98);
-
-  @keyframes explode {
-    //0% { stroke-width: 0; transform: scale(0.5) rotate(0deg); }
-    30% {
-      stroke-width: 3;
-      stroke-opacity: 1;
-      transform: scale(0.8) rotate(40deg);
-      //animation-timing-function: cubic-bezier(.89,.01,.95,.51);
-    }
-    100% {
-      stroke-width: 0;
-      stroke-opacity: 0;
-      transform: scale(1.1) rotate(60deg);
-      //animation-timing-function: cubic-bezier(.08,.56,.04,.98);
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0.6em;
+      left: 0.2em;
+      border-right: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      transform: rotate(45deg);
+      transform-origin: 0% 100%;
+      animation: checkbox-check 125ms 250ms cubic-bezier(0.4, 0, 0.23, 1)
+        forwards;
     }
   }
+
+  ins {
+    height: 100%;
+  }
 }
 
-.todo__box {
-  stroke-dasharray: 56.1053, 56.1053;
-  stroke-dashoffset: 0;
-  transition-delay: 0.5s * 0.2;
+@keyframes shrink-bounce {
+  0% {
+    transform: scale(1);
+  }
+  33% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
-.todo__check {
-  stroke: #27fdc7;
-  stroke-dasharray: 9.8995, 9.8995;
-  stroke-dashoffset: 9.8995;
-  transition-duration: 0.5s * 0.4;
-}
-.todo__line {
-  stroke-dasharray: 168, 1684;
-  stroke-dashoffset: 168;
-}
-.todo__circle {
-  animation-delay: 0.5s * 0.7;
-  animation-duration: 0.5s * 0.7;
-}
-
-.todo__state._active {
-  .todo__icon {
-    z-index: 4;
+@keyframes checkbox-check {
+  0% {
+    width: 0;
+    height: 0;
+    border-color: #212121;
+    transform: translate3d(0, 0, 0) rotate(45deg);
   }
-
-  ~ .todo__text {
-    transition-delay: 0s;
-    color: #5ebec1;
-    opacity: 0.6;
+  33% {
+    width: 0.2em;
+    height: 0;
+    transform: translate3d(0, 0, 0) rotate(45deg);
   }
-
-  ~ .todo__icon .todo__box {
-    stroke-dashoffset: 56.1053;
-    transition-delay: 0s;
-  }
-  ~ .todo__icon .todo__line {
-    stroke-dashoffset: -8;
-  }
-  ~ .todo__icon .todo__check {
-    stroke-dashoffset: 0;
-    transition-delay: 0.5s * 0.6;
-  }
-  ~ .todo__icon .todo__circle {
-    animation-name: explode;
+  100% {
+    width: 0.2em;
+    height: 0.5em;
+    border-color: #212121;
+    transform: translate3d(0, -0.5em, 0) rotate(45deg);
   }
 }
 </style>
