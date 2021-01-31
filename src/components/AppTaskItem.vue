@@ -4,7 +4,11 @@
       {{ task.mainTask }}
     </div>
     <div class="task__tag">{{ task.tag.name }}</div>
-    <i class="fa fa-pencil-square-o" aria-hidden="true" @click="editTask"></i>
+    <i
+      class="fa fa-pencil-square-o"
+      aria-hidden="true"
+      @click.stop="editTask"
+    ></i>
   </div>
 </template>
 

@@ -13,6 +13,7 @@
         <div class="modal-title">Новая задача</div>
 
         <div class="modal-input__container">
+          <!-- Task input -->
           <input
             v-model="inputTask"
             type="text"
@@ -27,6 +28,7 @@
           v-for="(input, $subTaskIndex) of storeInputSubTask"
           :key="$subTaskIndex"
         >
+          <!-- Subtask input -->
           <input
             :value="storeInputSubTaskValue($subTaskIndex)"
             @input="handleSubTaskInput($subTaskIndex, $event)"
@@ -38,13 +40,21 @@
           />
         </div>
 
+        <!-- Active tag of the task -->
         <div class="modal-input__tags" @click="openTagsPopup">
           {{ activeTag.name }}
         </div>
+
+        <!-- All tags wich can be selected -->
         <app-tags-modal :tags="storeTags"></app-tags-modal>
 
-        <div class="add-task__button" @click="addTask" @keydown.enter="addTask">
-          Добавить
+        <!-- Save button -->
+        <div
+          class="add-task__button"
+          @click="saveTask"
+          @keydown.enter="addTask"
+        >
+          {{ this.editPopupIsOpen ? 'Сохранить' : 'Добавить' }}
         </div>
       </div>
     </div>
@@ -96,6 +106,7 @@ export default {
       'storeInputSubTaskValue',
       'storeTags',
       'editPopupIsOpen',
+      'editingTask',
     ]),
     inputTask: {
       get() {
@@ -122,6 +133,7 @@ export default {
       resetSubTasks: 'resetSubTasks',
       isTagsPopupActive: 'isTagsPopupActive',
       popupEditTaskIsOpen: 'popupEditTaskIsOpen',
+      updateTask: 'updateTask',
     }),
 
     handleSubTaskInput(id, e) {
@@ -129,13 +141,12 @@ export default {
       if (this.isNeededToAddNewSubTaskInput()) this.addNewSubTaskInput();
     },
 
-    addTask() {
-      this.addNewTask({
-        id: uuid(),
-        mainTask: this.inputTask,
-        tag: this.activeTag,
-        subTasks: this.storeInputSubTask,
-      });
+    saveTask() {
+      if (this.editPopupIsOpen) {
+        this.updateEditedTask();
+      } else {
+        this.addNewTaskToStore();
+      }
 
       this.clearInput();
       this.closePopup();
@@ -146,6 +157,25 @@ export default {
         this.storeInputSubTask.filter(({ input }) => input.length === 0)
           .length === 0
       );
+    },
+
+    addNewTaskToStore() {
+      this.addNewTask({
+        id: uuid(),
+        mainTask: this.inputTask,
+        tag: this.activeTag,
+        subTasks: this.storeInputSubTask,
+      });
+    },
+
+    updateEditedTask() {
+      const updatedTask = {
+        id: this.editingTask.id,
+        mainTask: this.inputTask,
+        tag: this.activeTag,
+        subTasks: this.storeInputSubTask,
+      };
+      this.updateTask(updatedTask);
     },
 
     openTagsPopup() {
@@ -159,13 +189,11 @@ export default {
 
     closePopup() {
       // depending what we did - add new task or editing existed task
-      // if (this.popupIsOpen) {
-      this.popupIsClosed();
-      // } else {
       if (this.editPopupIsOpen) {
         this.popupEditTaskIsOpen();
+      } else {
+        this.popupIsClosed();
       }
-      // }
     },
   },
 };

@@ -44,7 +44,7 @@ module.exports = {
         ignorePropertyModificationsFor: ['state'],
       },
     ],
-    'no-param-reassign': [2, { props: false }],
+    'no-param-reassign': [1, { props: false }],
     'no-use-before-define': ['error', { functions: false, classes: true }],
     'object-shorthand': 0,
     'prefer-destructuring': ['error', { object: true, array: false }],

@@ -27,6 +27,7 @@ const changeMenuOpenStatus = (context) => {
 };
 
 const popupIsOpen = (context) => {
+  console.log('Open popup default');
   context.commit('POPUP_IS_OPEN');
 };
 
@@ -46,6 +47,10 @@ const moveTask = (context, payload) => {
   context.commit('MOVE_TASK', payload);
 };
 
+const updateTask = (context, task) => {
+  context.commit('UPDATE_TASK', task);
+};
+
 export default {
   updateInputTask,
   addNewTask,
@@ -59,4 +64,5 @@ export default {
   updateActiveTag,
   popupEditTaskIsOpen,
   moveTask,
+  updateTask,
 };

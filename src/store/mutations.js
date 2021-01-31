@@ -16,6 +16,17 @@ const ADD_NEW_TASK = (state, payload) => {
   state.tasks[0].todos.push(payload);
 };
 
+const UPDATE_TASK = (state, payload) => {
+  state.tasks = state.tasks.map((day) => {
+    return {
+      ...day,
+      todos: day.todos.map((todo) => {
+        return todo.id === payload.id ? payload : todo;
+      }),
+    };
+  });
+};
+
 const MOVE_TASK = (state, { index, dropResult }) => {
   const { removedIndex, addedIndex, payload } = dropResult;
 
@@ -64,7 +75,6 @@ const UPDATE_ACTIVE_TAG = (state, id) => {
 const POPUP_EDIT_TASK_IS_OPEN = (state, id) => {
   state.editPopupIsOpen = !state.editPopupIsOpen;
 
-  console.log(id, state, 'Id');
   // If before that moment pop up was not opened
   if (state.editPopupIsOpen) {
     state.tasks.forEach((day) =>
@@ -79,7 +89,9 @@ const POPUP_EDIT_TASK_IS_OPEN = (state, id) => {
      * Updating state modal pop up data depending on the edited task
      */
     state.inputTask = state.editingTask.mainTask;
-    state.inputSubTask = state.editingTask.subTasks;
+    state.inputSubTask = state.editingTask.subTasks.map((subtask) => ({
+      ...subtask,
+    }));
     UPDATE_ACTIVE_TAG(state, state.editingTask.tag.id);
   }
 };
@@ -96,4 +108,5 @@ export default {
   IS_TAGS_POPUP_ACTIVE,
   UPDATE_ACTIVE_TAG,
   POPUP_EDIT_TASK_IS_OPEN,
+  UPDATE_TASK,
 };
