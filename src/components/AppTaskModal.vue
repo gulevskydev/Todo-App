@@ -29,14 +29,35 @@
           :key="$subTaskIndex"
         >
           <!-- Subtask input -->
-          <input
-            :value="storeInputSubTaskValue($subTaskIndex)"
-            @input="handleSubTaskInput($subTaskIndex, $event)"
-            type="text"
-            placeholder="Введите задачу, которую хотите добавить"
-            class="modal-input__input"
-            @keydown.enter="addTask"
-          />
+          <div
+            v-if="editPopupIsOpen"
+            class="subtask__container"
+            :class="{ _active: isCompletedSubtask }"
+          >
+            <span
+              class="checkbox"
+              @click="setTaskCompletedStatus($subTaskIndex)"
+            ></span>
+            <input
+              ref="subtask"
+              :value="storeInputSubTaskValue($subTaskIndex)"
+              @input="handleSubTaskInput($subTaskIndex, $event)"
+              type="text"
+              placeholder="Введите задачу, которую хотите добавить"
+              class="modal-input__input"
+              @keydown.enter="addTask"
+            />
+          </div>
+          <div v-else>
+            <input
+              :value="storeInputSubTaskValue($subTaskIndex)"
+              @input="handleSubTaskInput($subTaskIndex, $event)"
+              type="text"
+              placeholder="Введите задачу, которую хотите добавить"
+              class="modal-input__input"
+              @keydown.enter="addTask"
+            />
+          </div>
           />
         </div>
 
@@ -77,6 +98,7 @@ export default {
   data: function () {
     return {
       isFocused: false,
+      idOfCompletedTask: 0,
     };
   },
 
@@ -108,6 +130,7 @@ export default {
       'editPopupIsOpen',
       'editingTask',
     ]),
+
     inputTask: {
       get() {
         return this.storeInputTask;
@@ -136,8 +159,12 @@ export default {
       updateTask: 'updateTask',
     }),
 
-    handleSubTaskInput(id, e) {
-      this.updateInputSubTask({ id, input: e.target.value });
+    handleSubTaskInput(id, e, completed = false) {
+      this.updateInputSubTask({
+        id,
+        input: completed ? e : e.target.value,
+        isCompleted: completed,
+      });
       if (this.isNeededToAddNewSubTaskInput()) this.addNewSubTaskInput();
     },
 
@@ -165,7 +192,6 @@ export default {
         mainTask: this.inputTask,
         tag: this.activeTag,
         subTasks: this.storeInputSubTask,
-        isCompleted: false,
       });
     },
 
@@ -195,6 +221,43 @@ export default {
       } else {
         this.popupIsClosed();
       }
+    },
+
+    setTaskCompletedStatus(id) {
+      if (this.$refs.subtask[id].value != null) {
+        this.handleSubTaskInput(id, this.$refs.subtask[id].value, true);
+      }
+    },
+
+    isCompletedSubtask: function () {
+      console.log(
+        this.idOfCompletedTask,
+        this.storeInputSubTask,
+        this.idOfCompletedTask,
+        this.storeInputSubTask[this.idOfCompletedTask].isCompleted,
+        this.storeInputSubTask[this.idOfCompletedTask].input.length,
+        'is completed',
+      );
+      return (
+        this.storeInputSubTask[this.idOfCompletedTask].isCompleted &&
+        this.storeInputSubTask[this.idOfCompletedTask].input.length
+      );
+      // let activeSubTasks = null;
+
+      // this.tasks.forEach(({ todos }) => {
+      //   todos.forEach((todo) => {
+      //     if (todo.id === this.editingTask.id) {
+      //       activeSubTasks = todo;
+      //     }
+      //   });
+      // });
+
+      // console.log(id, activeSubTasks, 'Complte ');
+
+      // return (
+      //   activeSubTasks.subTasks[id].input.length &&
+      //   activeSubTasks.subTasks[id].isCompleted
+      // );
     },
   },
 };
@@ -303,6 +366,49 @@ export default {
   transform: scale(0.95);
 }
 
+.checkbox {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  border: 1px solid #9e9e9e;
+  border-radius: 4px;
+  cursor: pointer;
+  transition-property: border, background;
+  transition: 250ms cubic-bezier(0.4, 0, 0.23, 1);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+.subtask__container {
+  display: flex;
+
+  &._active {
+    .checkbox {
+      border: 1px solid #ffeb3b;
+      background: #ffeb3b;
+      animation: shrink-bounce 200ms cubic-bezier(0.4, 0, 0.23, 1);
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0.6em;
+        left: 0.2em;
+        border-right: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        transform: rotate(45deg);
+        transform-origin: 0% 100%;
+        animation: checkbox-check 125ms 250ms cubic-bezier(0.4, 0, 0.23, 1)
+          forwards;
+      }
+    }
+  }
+}
 .modal-frame.active {
   visibility: visible;
   height: inherit;

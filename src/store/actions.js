@@ -55,6 +55,10 @@ const updateCompletedTaskStatus = (context, task) => {
   context.commit('UPDATE_COMPLETED_STATUS', task);
 };
 
+const updateCompletedSubTasks = (context, subTaskId) => {
+  context.commit('UPDATE_COMPLETED_SUBTASK', subTaskId);
+};
+
 export default {
   updateInputTask,
   addNewTask,
@@ -70,4 +74,5 @@ export default {
   moveTask,
   updateTask,
   updateCompletedTaskStatus,
+  updateCompletedSubTasks,
 };

@@ -2,9 +2,10 @@ const UPDATE_INPUT_TASK = (state, payload) => {
   state.inputTask = payload;
 };
 
-const UPDATE_INPUT_SUB_TASK = (state, { id, input }) => {
-  console.log(id, input, 'MUTATIONS');
-  state.inputSubTask[id].input = input;
+const UPDATE_INPUT_SUB_TASK = (state, { id, input, isCompleted }) => {
+  console.log(id, input, isCompleted, 'MUTATIONS');
+  state.inputSubTask[id] = { input: input, isCompleted: isCompleted };
+  console.log(state.inputSubTask[id], 'after update');
 };
 
 const RESET_SUB_TASKS = (state, payload) => {
@@ -14,6 +15,13 @@ const RESET_SUB_TASKS = (state, payload) => {
 const ADD_NEW_TASK = (state, payload) => {
   console.log(state, payload, 'Add new task', state.tasks[0]);
   state.tasks[0].todos.push(payload);
+  payload.subTasks.slice(1).forEach(() => state.completedSubtasks.push(false));
+};
+
+const UPDATE_COMPLETED_SUBTASK = (state, subTaskId) => {
+  state.completedSubtasks = state.completedSubtasks.map((subtask, id) =>
+    id === subTaskId ? true : subtask,
+  );
 };
 
 const UPDATE_TASK = (state, payload) => {
@@ -127,4 +135,5 @@ export default {
   POPUP_EDIT_TASK_IS_OPEN,
   UPDATE_TASK,
   UPDATE_COMPLETED_STATUS,
+  UPDATE_COMPLETED_SUBTASK,
 };

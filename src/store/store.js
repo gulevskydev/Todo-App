@@ -13,6 +13,7 @@ export const store = new Vuex.Store({
   state: {
     inputTask: '',
     inputSubTask: [{ id: 1, input: '' }],
+    completedSubtasks: [false],
     tags: [
       { id: 1, name: 'Работа', active: true },
       { id: 2, name: 'Хобби', active: false },
