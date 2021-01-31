@@ -165,6 +165,7 @@ export default {
         mainTask: this.inputTask,
         tag: this.activeTag,
         subTasks: this.storeInputSubTask,
+        isCompleted: false,
       });
     },
 

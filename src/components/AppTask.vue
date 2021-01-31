@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="task__container flex justify-center flex-col items-start w-3/5 px-12"
-  >
+  <div class="task__container flex justify-center flex-col items-start px-12">
     <div>
       <!-- Days -->
       <div
@@ -101,6 +99,14 @@ export default {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.task__container {
+  width: 600px;
+}
+
+.task__day {
+  width: 600px;
+}
 
 .input {
   &__input {

@@ -41,7 +41,7 @@
     <div class="todo-list">
       <div class="todo-container">
         <label class="todo">
-          <input
+          <div
             class="todo__state"
             :class="{ _active: completed }"
             type="checkbox"
@@ -52,28 +52,29 @@
             xmlns:xlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 200 25"
             class="todo__icon"
+            :class="{ _active: activeAnimation }"
+            @click.stop="setTaskCompletedStatus"
           >
             <use xlink:href="#todo__line" class="todo__line"></use>
             <use xlink:href="#todo__box" class="todo__box"></use>
             <use xlink:href="#todo__check" class="todo__check"></use>
-            <use xlink:href="#todo__circle" class="todo__circle"></use>
+            <!-- <use xlink:href="#todo__circle" class="todo__circle"></use> -->
           </svg>
 
-          <div class="todo__text" @click="setTaskCompletedStatus">
+          <div class="todo__text">
             {{ task.mainTask }}
+          </div>
+          <div class="todo__options">
+            <div class="todo__task-tag">{{ task.tag.name }}</div>
+            <i
+              class="fa fa-pencil-square-o"
+              aria-hidden="true"
+              @click.stop="editTask"
+            ></i>
           </div>
         </label>
       </div>
     </div>
-    <!-- <div class="task__name">
-      {{ task.mainTask }}
-    </div>
-    <div class="task__tag">{{ task.tag.name }}</div>
-    <i
-      class="fa fa-pencil-square-o"
-      aria-hidden="true"
-      @click.stop="editTask"
-    ></i> -->
   </div>
 </template>
 
@@ -92,6 +93,7 @@ export default {
     return {
       taskMessage: this.data,
       completed: false,
+      activeAnimation: false,
     };
   },
 
@@ -105,7 +107,22 @@ export default {
     },
 
     setTaskCompletedStatus() {
+      this.updateAnimationState();
       this.completed = !this.completed;
+    },
+
+    updateAnimationState() {
+      if (!this.completed) {
+        this.activeAnimation = true;
+      } else {
+        setTimeout(() => {
+          this.activeAnimation = false;
+        }, 800);
+      }
+    },
+
+    test(e) {
+      console.log('click', e.target);
     },
   },
 };
@@ -114,14 +131,13 @@ export default {
 <style lang="scss" scoped>
 .todo-list {
   font-size: 20px;
-  max-width: 15em;
-  margin: auto;
   padding: 0.5em 1em;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
 }
 
 .todo {
-  display: block;
+  display: flex;
+  justify-content: space-between;
   position: relative;
   padding: 1em 1em 1em 16%;
   margin: 0 auto;
@@ -133,6 +149,14 @@ export default {
   }
 }
 
+.fa {
+  z-index: 2;
+}
+
+.todo__options {
+  display: flex;
+}
+
 .todo__state {
   position: absolute;
   top: 0;
@@ -140,9 +164,16 @@ export default {
   opacity: 0;
 }
 
+.todo__task-tag {
+  margin-right: 20px;
+}
+
 .todo__text {
+  width: 100%;
+  margin-right: 20px;
   color: saturate(#1b4a4e, 15%);
-  transition: all 0.8s / 2 linear 0.8s / 2;
+  transition: all 0.5s / 2 linear 0.5s / 2;
+  z-index: 3;
 }
 
 .todo-container {
@@ -157,18 +188,22 @@ export default {
   width: 100%;
   height: auto;
   margin: auto;
-
+  z-index: 1;
   fill: none;
   stroke: #27fdc7;
   stroke-width: 2;
   stroke-linejoin: round;
   stroke-linecap: round;
+
+  &._active {
+    z-index: 4;
+  }
 }
 
 .todo__line,
 .todo__box,
 .todo__check {
-  transition: stroke-dashoffset 0.8s cubic-bezier(0.9, 0, 0.5, 1);
+  transition: stroke-dashoffset 0.5s cubic-bezier(0.9, 0, 0.5, 1);
 }
 
 .todo__circle {
@@ -178,7 +213,7 @@ export default {
 
   transform-origin: 13.5px 12.5px;
   transform: scale(0.4) rotate(0deg);
-  animation: none 0.8s linear; //cubic-bezier(.08,.56,.04,.98);
+  animation: none 0.5s linear; //cubic-bezier(.08,.56,.04,.98);
 
   @keyframes explode {
     //0% { stroke-width: 0; transform: scale(0.5) rotate(0deg); }
@@ -200,24 +235,28 @@ export default {
 .todo__box {
   stroke-dasharray: 56.1053, 56.1053;
   stroke-dashoffset: 0;
-  transition-delay: 0.8s * 0.2;
+  transition-delay: 0.5s * 0.2;
 }
 .todo__check {
   stroke: #27fdc7;
   stroke-dasharray: 9.8995, 9.8995;
   stroke-dashoffset: 9.8995;
-  transition-duration: 0.8s * 0.4;
+  transition-duration: 0.5s * 0.4;
 }
 .todo__line {
   stroke-dasharray: 168, 1684;
   stroke-dashoffset: 168;
 }
 .todo__circle {
-  animation-delay: 0.8s * 0.7;
-  animation-duration: 0.8s * 0.7;
+  animation-delay: 0.5s * 0.7;
+  animation-duration: 0.5s * 0.7;
 }
 
 .todo__state._active {
+  .todo__icon {
+    z-index: 4;
+  }
+
   ~ .todo__text {
     transition-delay: 0s;
     color: #5ebec1;
@@ -233,7 +272,7 @@ export default {
   }
   ~ .todo__icon .todo__check {
     stroke-dashoffset: 0;
-    transition-delay: 0.8s * 0.6;
+    transition-delay: 0.5s * 0.6;
   }
   ~ .todo__icon .todo__circle {
     animation-name: explode;
