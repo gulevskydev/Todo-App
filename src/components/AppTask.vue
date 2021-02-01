@@ -71,12 +71,14 @@ export default {
     document.addEventListener(
       'dragstart',
       function (event) {
-        // prevent default to allow drop
-        console.log('drag-over');
         event.preventDefault();
       },
       false,
     );
+  },
+
+  unmounted() {
+    document.addEventListener('dragstart');
   },
 
   data: function () {
@@ -101,9 +103,11 @@ export default {
     onDrop(dropResult, index) {
       this.moveTask({ index, dropResult });
     },
+
     getGhostParent() {
       return document.body;
     },
+
     onDropReady(dropResult) {
       console.log('drop ready', dropResult);
     },

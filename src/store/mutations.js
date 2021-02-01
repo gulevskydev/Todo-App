@@ -2,10 +2,18 @@ const UPDATE_INPUT_TASK = (state, payload) => {
   state.inputTask = payload;
 };
 
-const UPDATE_INPUT_SUB_TASK = (state, { id, input, isCompleted }) => {
-  console.log(id, input, isCompleted, 'MUTATIONS');
-  state.inputSubTask[id] = { input: input, isCompleted: isCompleted };
-  console.log(state.inputSubTask[id], 'after update');
+const UPDATE_INPUT_SUB_TASK = (state, { id, input, updateCompletedStatus }) => {
+  state.inputSubTask = state.inputSubTask.map((subtask, index) => {
+    return index === id
+      ? {
+          input,
+          isCompleted:
+            updateCompletedStatus && input.length
+              ? !subtask.isCompleted
+              : false,
+        }
+      : subtask;
+  });
 };
 
 const RESET_SUB_TASKS = (state, payload) => {

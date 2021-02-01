@@ -32,7 +32,7 @@
           <div
             v-if="editPopupIsOpen"
             class="subtask__container"
-            :class="{ _active: isCompletedSubtask }"
+            :class="{ _active: input.isCompleted }"
           >
             <span
               class="checkbox"
@@ -163,7 +163,7 @@ export default {
       this.updateInputSubTask({
         id,
         input: completed ? e : e.target.value,
-        isCompleted: completed,
+        updateCompletedStatus: completed,
       });
       if (this.isNeededToAddNewSubTaskInput()) this.addNewSubTaskInput();
     },
@@ -227,37 +227,6 @@ export default {
       if (this.$refs.subtask[id].value != null) {
         this.handleSubTaskInput(id, this.$refs.subtask[id].value, true);
       }
-    },
-
-    isCompletedSubtask: function () {
-      console.log(
-        this.idOfCompletedTask,
-        this.storeInputSubTask,
-        this.idOfCompletedTask,
-        this.storeInputSubTask[this.idOfCompletedTask].isCompleted,
-        this.storeInputSubTask[this.idOfCompletedTask].input.length,
-        'is completed',
-      );
-      return (
-        this.storeInputSubTask[this.idOfCompletedTask].isCompleted &&
-        this.storeInputSubTask[this.idOfCompletedTask].input.length
-      );
-      // let activeSubTasks = null;
-
-      // this.tasks.forEach(({ todos }) => {
-      //   todos.forEach((todo) => {
-      //     if (todo.id === this.editingTask.id) {
-      //       activeSubTasks = todo;
-      //     }
-      //   });
-      // });
-
-      // console.log(id, activeSubTasks, 'Complte ');
-
-      // return (
-      //   activeSubTasks.subTasks[id].input.length &&
-      //   activeSubTasks.subTasks[id].isCompleted
-      // );
     },
   },
 };
