@@ -36,9 +36,11 @@
               :class="{ _active: input.isCompleted }"
             >
               <span
+                v-if="input.input.length"
                 class="checkbox"
                 @click="setTaskCompletedStatus($subTaskIndex)"
               ></span>
+              <i v-else class="las la-arrow-right"></i>
               <input
                 ref="subtask"
                 :value="storeInputSubTaskValue($subTaskIndex)"
@@ -51,6 +53,7 @@
             </div>
             <div v-else>
               <div class="subtask__container">
+                <i class="las la-arrow-right"></i>
                 <input
                   :value="storeInputSubTaskValue($subTaskIndex)"
                   @input="handleSubTaskInput($subTaskIndex, $event)"
@@ -72,13 +75,13 @@
           <app-tags-modal :tags="storeTags"></app-tags-modal>
 
           <!-- Save button -->
-          <div
-            class="add-task__button"
-            @click="saveTask"
-            @keydown.enter="addTask"
-          >
-            {{ this.editPopupIsOpen ? 'Сохранить' : 'Добавить' }}
-          </div>
+        </div>
+        <div
+          class="add-task__button"
+          @click="saveTask"
+          @keydown.enter="addTask"
+        >
+          {{ this.editPopupIsOpen ? 'Сохранить' : 'Добавить' }}
         </div>
       </div>
     </div>
@@ -310,7 +313,7 @@ export default {
   border-radius: 3px;
   background: $bg-color-2;
   position: absolute;
-  height: 450px;
+  height: 500px;
   margin-top: -10%;
   z-index: 100;
 }
@@ -338,8 +341,14 @@ export default {
   transform: scale(0.95);
 }
 
+.la-arrow-right {
+  margin-right: 10px;
+}
+
 .body-task-container {
   overflow-y: scroll;
+  height: 290px;
+  margin-bottom: 32px;
 }
 
 .checkbox {
@@ -378,6 +387,10 @@ export default {
       border: 1px solid #ffeb3b;
       background: #ffeb3b;
       animation: shrink-bounce 200ms cubic-bezier(0.4, 0, 0.23, 1);
+
+      .la-arrow-right {
+        display: none;
+      }
 
       &::before {
         content: '';
