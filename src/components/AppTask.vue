@@ -31,9 +31,9 @@
             <app-task-item :task="task"> </app-task-item>
 
             <!-- SubTask -->
-            <div v-for="subTask of task.subTasks" :key="subTask.id">
+            <!-- <div v-for="subTask of task.subTasks" :key="subTask.id">
               <app-subtask-item :data="subTask.input"></app-subtask-item>
-            </div>
+            </div> -->
           </draggable>
         </container>
       </div>
@@ -53,7 +53,7 @@ import { Container, Draggable } from 'vue-smooth-dnd';
 import AppTaskItem from './AppTaskItem';
 import AppTaskModal from './AppTaskModal';
 import AppMainButton from './AppMainButton';
-import AppSubtaskItem from './AppSubtaskItem';
+// import AppSubtaskItem from './AppSubtaskItem';
 
 export default {
   name: 'AppTask',
@@ -62,7 +62,6 @@ export default {
     AppTaskItem,
     AppTaskModal,
     AppMainButton,
-    AppSubtaskItem,
     Draggable,
     Container,
   },
@@ -77,7 +76,7 @@ export default {
     );
   },
 
-  unmounted() {
+  beforeDestroy() {
     document.addEventListener('dragstart');
   },
 

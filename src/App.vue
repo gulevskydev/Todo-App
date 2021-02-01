@@ -23,7 +23,7 @@ body {
   color: $font-main;
 }
 
-#app {
-  font-family: 'Oswald', sans-serif;
+body {
+  font-family: 'Poppins', sans-serif;
 }
 </style>
