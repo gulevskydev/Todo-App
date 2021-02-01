@@ -6,6 +6,9 @@
   >
     <div class="modal-body">
       <div class="modal-inner">
+        <button id="close" class="close" @click.stop="closePopup">
+          <i class="fa fa-times"></i>
+        </button>
         <div
           v-for="tag in tags"
           :key="tag.id"
@@ -57,10 +60,23 @@ export default {
 </script>
 
 <style styled="scss" scoped>
+@import url('../assets/css/base.scss');
+
 .tags-modal__item {
-  color: #000;
-  font-size: 18px;
+  width: max-content;
+  color: $font-color-2;
+  font-size: 16px;
+  margin-bottom: 20px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: #4975a6;
+  transition: all 0.3s;
 }
+
+.tags-modal__item:hover {
+  transform: scale(1.15);
+}
+
 .close {
   position: absolute;
   top: 10px;
@@ -88,13 +104,13 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  width: 500px;
+  width: 200px;
   border-radius: 3px;
   background: #fff;
   position: absolute;
   left: 50%;
   margin-left: -250px;
-  height: 400px;
+  height: 350px;
   margin-top: -200px;
   top: 50%;
   z-index: 100;
@@ -102,7 +118,7 @@ export default {
 
 .modal-inner {
   position: relative;
-  padding: 50px;
+  padding: 20px;
   opacity: 0;
   transform: scale(0.5);
   transition: 0.2s ease-in-out;

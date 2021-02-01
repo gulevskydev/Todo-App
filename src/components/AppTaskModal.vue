@@ -65,17 +65,14 @@
               </div>
             </div>
           </div>
-
-          <!-- Active tag of the task -->
-          <div class="modal-input__tags" @click="openTagsPopup">
-            {{ activeTag.name }}
-          </div>
-
-          <!-- All tags wich can be selected -->
-          <app-tags-modal :tags="storeTags"></app-tags-modal>
-
-          <!-- Save button -->
         </div>
+        <!-- Active tag of the task -->
+        <div class="modal-input__tags" @click="openTagsPopup">
+          {{ activeTag.name }}
+        </div>
+        <!-- All tags wich can be selected -->
+        <app-tags-modal :tags="storeTags"></app-tags-modal>
+        <!-- Save button -->
         <div
           class="add-task__button"
           @click="saveTask"
@@ -85,6 +82,7 @@
         </div>
       </div>
     </div>
+
     <div class="modal-overlay"></div>
   </div>
 </template>
@@ -281,9 +279,13 @@ export default {
 }
 
 .modal-input__tags {
-  color: black;
+  width: max-content;
+  color: $font-color-2;
   margin-bottom: 20px;
-  font-size: 18px;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: #4975a6;
 }
 
 .btn:hover {
@@ -347,7 +349,7 @@ export default {
 
 .body-task-container {
   overflow-y: scroll;
-  height: 290px;
+  height: 260px;
   margin-bottom: 32px;
 }
 
