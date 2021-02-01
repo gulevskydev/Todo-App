@@ -12,70 +12,73 @@
 
         <div class="modal-title">Новая задача</div>
 
-        <div class="modal-input__container">
-          <!-- Task input -->
-          <input
-            v-model="inputTask"
-            type="text"
-            placeholder="Введите задачу, которую хотите добавить"
-            class="modal-input__input"
-            @keydown.enter="addTask"
-          />
-          <span class="underline"></span>
-        </div>
+        <div class="body-task-container">
+          <div class="modal-input__container">
+            <!-- Task input -->
+            <input
+              v-model="inputTask"
+              type="text"
+              placeholder="Введите задачу, которую хотите добавить"
+              class="modal-input__input"
+              @keydown.enter="addTask"
+            />
+            <span class="underline"></span>
+          </div>
 
-        <div
-          v-for="(input, $subTaskIndex) of storeInputSubTask"
-          :key="$subTaskIndex"
-        >
-          <!-- Subtask input -->
           <div
-            v-if="editPopupIsOpen"
-            class="subtask__container"
-            :class="{ _active: input.isCompleted }"
+            v-for="(input, $subTaskIndex) of storeInputSubTask"
+            :key="$subTaskIndex"
           >
-            <span
-              class="checkbox"
-              @click="setTaskCompletedStatus($subTaskIndex)"
-            ></span>
-            <input
-              ref="subtask"
-              :value="storeInputSubTaskValue($subTaskIndex)"
-              @input="handleSubTaskInput($subTaskIndex, $event)"
-              type="text"
-              placeholder="Введите задачу, которую хотите добавить"
-              class="modal-input__input"
-              @keydown.enter="addTask"
-            />
+            <!-- Subtask input -->
+            <div
+              v-if="editPopupIsOpen"
+              class="subtask__container"
+              :class="{ _active: input.isCompleted }"
+            >
+              <span
+                class="checkbox"
+                @click="setTaskCompletedStatus($subTaskIndex)"
+              ></span>
+              <input
+                ref="subtask"
+                :value="storeInputSubTaskValue($subTaskIndex)"
+                @input="handleSubTaskInput($subTaskIndex, $event)"
+                type="text"
+                placeholder="Введите подзадачу, которую хотите добавить"
+                class="modal-input__input"
+                @keydown.enter="addTask"
+              />
+            </div>
+            <div v-else>
+              <div class="subtask__container">
+                <input
+                  :value="storeInputSubTaskValue($subTaskIndex)"
+                  @input="handleSubTaskInput($subTaskIndex, $event)"
+                  type="text"
+                  placeholder="Введите задачу, которую хотите добавить"
+                  class="modal-input__input"
+                  @keydown.enter="addTask"
+                />
+              </div>
+            </div>
           </div>
-          <div v-else>
-            <input
-              :value="storeInputSubTaskValue($subTaskIndex)"
-              @input="handleSubTaskInput($subTaskIndex, $event)"
-              type="text"
-              placeholder="Введите задачу, которую хотите добавить"
-              class="modal-input__input"
-              @keydown.enter="addTask"
-            />
+
+          <!-- Active tag of the task -->
+          <div class="modal-input__tags" @click="openTagsPopup">
+            {{ activeTag.name }}
           </div>
-          />
-        </div>
 
-        <!-- Active tag of the task -->
-        <div class="modal-input__tags" @click="openTagsPopup">
-          {{ activeTag.name }}
-        </div>
+          <!-- All tags wich can be selected -->
+          <app-tags-modal :tags="storeTags"></app-tags-modal>
 
-        <!-- All tags wich can be selected -->
-        <app-tags-modal :tags="storeTags"></app-tags-modal>
-
-        <!-- Save button -->
-        <div
-          class="add-task__button"
-          @click="saveTask"
-          @keydown.enter="addTask"
-        >
-          {{ this.editPopupIsOpen ? 'Сохранить' : 'Добавить' }}
+          <!-- Save button -->
+          <div
+            class="add-task__button"
+            @click="saveTask"
+            @keydown.enter="addTask"
+          >
+            {{ this.editPopupIsOpen ? 'Сохранить' : 'Добавить' }}
+          </div>
         </div>
       </div>
     </div>
@@ -233,15 +236,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/base.scss';
+
 .close {
   position: absolute;
   top: 10px;
-  font-size: 16px;
+  font-size: 20px;
   right: 5px;
   color: #999;
   cursor: pointer;
   background: none;
   border: none;
+  transition: hover 0.3s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .btn {
@@ -296,25 +306,18 @@ export default {
 }
 
 .modal-body {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 500px;
+  width: 600px;
   border-radius: 3px;
-  background: #fff;
+  background: $bg-color-2;
   position: absolute;
-  left: 50%;
-  margin-left: -250px;
-  height: 400px;
-  margin-top: -200px;
-  top: 50%;
+  height: 450px;
+  margin-top: -10%;
   z-index: 100;
 }
 
 .modal-inner {
   position: relative;
-  padding: 50px;
+  padding: 40px 20px;
   opacity: 0;
   transform: scale(0.5);
   transition: 0.2s ease-in-out;
@@ -333,6 +336,10 @@ export default {
 
 .modal-inner {
   transform: scale(0.95);
+}
+
+.body-task-container {
+  overflow-y: scroll;
 }
 
 .checkbox {
@@ -356,6 +363,15 @@ export default {
 }
 .subtask__container {
   display: flex;
+  align-items: center;
+  margin-left: 25px;
+
+  .checkbox {
+    width: 20px;
+    height: 15px;
+    margin-right: 12px;
+    border-radius: 50%;
+  }
 
   &._active {
     .checkbox {
@@ -381,7 +397,9 @@ export default {
 .modal-frame.active {
   visibility: visible;
   height: inherit;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-frame.active .modal-body {
@@ -455,6 +473,8 @@ export default {
     border: none;
     border-bottom: 1px solid transparent;
     padding: 10px 0;
+    color: $font-color-1;
+    background-color: transparent;
     transition: all 0.3s;
 
     &:focus + .underline {
@@ -480,10 +500,10 @@ export default {
 }
 
 .modal-title {
-  font-size: 18px;
-  color: #333;
+  font-size: 24px;
+  color: $font-color-2;
   font-weight: bold;
-  margin-bottom: 12px;
+  margin-bottom: 32px;
 }
 
 input::-webkit-input-placeholder {
