@@ -49,6 +49,7 @@
                 placeholder="Введите подзадачу, которую хотите добавить"
                 class="modal-input__input"
                 @keydown.enter="addTask"
+                @keyup.delete="handleDeleteSubTaskInput($subTaskIndex)"
               />
             </div>
             <div v-else>
@@ -102,7 +103,6 @@ export default {
   data: function () {
     return {
       isFocused: false,
-      idOfCompletedTask: 0,
     };
   },
 
@@ -161,6 +161,7 @@ export default {
       isTagsPopupActive: 'isTagsPopupActive',
       popupEditTaskIsOpen: 'popupEditTaskIsOpen',
       updateTask: 'updateTask',
+      deleteSubTaskInput: 'deleteSubTaskInput',
     }),
 
     handleSubTaskInput(id, e, completed = false) {
@@ -224,6 +225,17 @@ export default {
         this.popupEditTaskIsOpen();
       } else {
         this.popupIsClosed();
+      }
+    },
+
+    handleDeleteSubTaskInput(index) {
+      // Check if it is not last input, because we need stay the last input
+      console.log();
+      if (
+        index + 1 < this.storeInputSubTask.length &&
+        !this.storeInputSubTask[index].input.length
+      ) {
+        this.deleteSubTaskInput(index);
       }
     },
 
@@ -307,7 +319,17 @@ export default {
   height: 56px;
   border-radius: 8px;
   background: black;
-  color: #fff;
+  color: $font-color-2;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  transition: hover 0.5s;
+}
+
+.add-task__button:hover {
+  color: $font-color-1;
 }
 
 .modal-body {

@@ -80,6 +80,10 @@ const IS_TAGS_POPUP_ACTIVE = (state) => {
   state.isTagsPopupOpen = !state.isTagsPopupOpen;
 };
 
+const DELETE_SUBTASK_INPUT = (state, id) => {
+  state.inputSubTask = state.inputSubTask.filter((_, index) => index !== id);
+};
+
 const UPDATE_ACTIVE_TAG = (state, id) => {
   const tags = state.tags.map((tag) => {
     if (tag.id === id) return { ...tag, active: true };
@@ -144,4 +148,5 @@ export default {
   UPDATE_TASK,
   UPDATE_COMPLETED_STATUS,
   UPDATE_COMPLETED_SUBTASK,
+  DELETE_SUBTASK_INPUT,
 };

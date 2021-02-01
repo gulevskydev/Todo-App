@@ -5,7 +5,7 @@
       <div
         v-for="(column, $columnIndex) of tasks"
         :key="column.id"
-        class="task__day font-bold my-4 uppercase text-left"
+        class="task__day font-bold my-4 text-left"
       >
         <!-- Title of the day -->
         <h2 class="task__wrapper flex flex-col justify-center content-start">

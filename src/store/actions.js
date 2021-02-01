@@ -35,6 +35,10 @@ const isTagsPopupActive = (context) => {
   context.commit('IS_TAGS_POPUP_ACTIVE');
 };
 
+const deleteSubTaskInput = (context, id) => {
+  context.commit('DELETE_SUBTASK_INPUT', id);
+};
+
 const updateActiveTag = (context, payload) => {
   context.commit('UPDATE_ACTIVE_TAG', payload);
 };
@@ -75,4 +79,5 @@ export default {
   updateTask,
   updateCompletedTaskStatus,
   updateCompletedSubTasks,
+  deleteSubTaskInput,
 };

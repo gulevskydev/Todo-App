@@ -128,11 +128,19 @@ ins {
 }
 
 .todo__task-tag {
+  width: max-content;
   margin-right: 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: #4975a6;
 }
 
 .todo__text {
   position: relative;
+  font-weight: normal;
+  font-size: 16px;
   display: flex;
   width: 100%;
   margin-right: 30px;
