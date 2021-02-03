@@ -25,6 +25,12 @@ const ADD_NEW_TASK = (state, payload) => {
   state.tasks[0].todos.push(payload);
   payload.subTasks.slice(1).forEach(() => state.completedSubtasks.push(false));
   state.tasks[0].todos.sort((a, b) => a.isCompleted - b.isCompleted);
+
+  if (!state.showCompletedTasks) {
+    console.log('completed tasks');
+    // state.completedTasks[0].push(payload);
+    // state.completedTasks[0].push(payload);
+  }
 };
 
 const UPDATE_COMPLETED_SUBTASK = (state, subTaskId) => {
@@ -118,6 +124,7 @@ const POPUP_EDIT_TASK_IS_OPEN = (state, id) => {
 };
 
 const UPDATE_COMPLETED_STATUS = (state, task) => {
+  // Change completed status for current task and update the state
   state.tasks = state.tasks.map((day) => {
     return {
       ...day,
@@ -133,27 +140,32 @@ const UPDATE_COMPLETED_STATUS = (state, task) => {
     };
   });
 
-  console.log(
-    state.tasks.map((el) => {
-      console.log(el.todos.sort((a, b) => a.isCompleted - b.isCompleted));
-      return el.todos.sort((a, b) => a.isCompleted - b.isCompleted);
-    }),
-  );
+  // Move all new tasks to the end before the beginning of completed ones started
+  state.tasks.map((el) => {
+    return el.todos.sort((a, b) => a.isCompleted - b.isCompleted);
+  });
 
   if (!state.showCompletedTasks) {
-    state.completedTasks = state.tasks.map((day) => {
-      return day.todos.filter((todo) => todo.isCompleted);
-    });
+    // Render only not completed tasks
     state.tasks = state.tasks.map((day) => {
       return {
         ...day,
         todos: day.todos.filter((todo) => !todo.isCompleted),
       };
     });
+
+    // Add new completed task to the store and change the completed status to true
+    state.completedTasks[0].push({ ...task, isCompleted: true });
+    console.log(state.completedTasks, 'completed tasks state');
   }
 };
 
 const SWITCH_COMPLETED_SHOW_TASKS_STATUS = (state) => {
+  /**
+   *  To hide completed tasks:
+   *  1. Change state for showCompletedTasks
+   *  2. Filter all completed tasks and remove them form state and then add to completedTasks store
+   */
   if (state.showCompletedTasks) {
     state.showCompletedTasks = false;
     state.completedTasks = state.tasks.map((day) => {
@@ -166,8 +178,13 @@ const SWITCH_COMPLETED_SHOW_TASKS_STATUS = (state) => {
       };
     });
   } else {
+    /**
+     * Change state to show completed tasks
+     *
+     */
     state.showCompletedTasks = true;
     state.tasks = state.tasks.map((day, i) => {
+      console.log('Complted tasks', state.completedTasks[i]);
       return {
         ...day,
         todos: [...day.todos, ...state.completedTasks[i]],
