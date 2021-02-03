@@ -17,24 +17,23 @@
           group-name="1"
           :get-child-payload="getChildPayload($columnIndex)"
           orientation="vertical"
-          @drop="onDrop($event, $columnIndex)"
+          @drop.prevent="onDrop($event, $columnIndex)"
         >
-          <!-- Main task -->
-          <draggable
-            v-for="task of column.todos"
-            :key="task.id"
-            draggable
-            drag-start="handleDrag"
-            dragstart="handleDrag"
-            dragover.prevent
-          >
-            <app-task-item :task="task"> </app-task-item>
-
-            <!-- SubTask -->
-            <!-- <div v-for="subTask of task.subTasks" :key="subTask.id">
+          <template v-for="task of column.todos">
+            <draggable
+              v-if="!task.isCompleted"
+              :key="task.id"
+              draggable
+              dragover.prevent
+            >
+              <app-task-item :task="task"> </app-task-item>
+              <!-- SubTask -->
+              <!-- <div v-for="subTask of task.subTasks" :key="subTask.id">
               <app-subtask-item :data="subTask.input"></app-subtask-item>
             </div> -->
-          </draggable>
+            </draggable>
+            <app-task-item v-else :task="task" :key="task.id"> </app-task-item>
+          </template>
         </container>
       </div>
     </div>
@@ -115,11 +114,11 @@ export default {
       return (index) => this.tasks[col].todos[index];
     },
 
-    handleDrag() {
-      console.log('dragstart');
-      document.addEventListener('mouseup', () => {
-        console.log('mouseup');
-      });
+    handleDrag(e, task) {
+      console.log('task click');
+      if (task.isCompleted) {
+        e.preventDefault();
+      }
     },
   },
 };

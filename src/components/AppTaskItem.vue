@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @dragstart="handleMouseDown($event)">
     <div class="todo-list draggable-item">
       <div class="todo-container" :class="{ _active: isCompletedTask }">
         <span @click="setTaskCompletedStatus"></span>
@@ -62,11 +62,15 @@ export default {
 
     editTask() {
       this.popupEditTaskIsOpen(this.task.id);
-      this.isCompletedTask();
     },
 
     setTaskCompletedStatus() {
       this.updateCompletedTaskStatus(this.task);
+    },
+
+    handleMouseDown(event) {
+      console.log('mouse down', this.isCompletedTask);
+      if (this.isCompletedTask) event.preventDefault();
     },
   },
 };
