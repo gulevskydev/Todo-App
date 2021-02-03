@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
   /* eslint-disable */
   state: {
     inputTask: '',
+    inputTag: '',
     inputSubTask: [{ id: 1, input: '' }],
     completedSubtasks: [false],
     tags: [

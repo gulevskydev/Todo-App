@@ -67,6 +67,14 @@ const switchCompeltedShowTasksStatus = (context) => {
   context.commit('SWITCH_COMPLETED_SHOW_TASKS_STATUS');
 };
 
+const updateInputTag = (context, input) => {
+  context.commit('UPDATE_INPUT_TAG', input);
+};
+
+const addNewTagToTheStore = (context, payload) => {
+  context.commit('ADD_NEW_TAG_TO_THE_STORE', payload);
+};
+
 export default {
   updateInputTask,
   addNewTask,
@@ -85,4 +93,6 @@ export default {
   updateCompletedSubTasks,
   deleteSubTaskInput,
   switchCompeltedShowTasksStatus,
+  updateInputTag,
+  addNewTagToTheStore,
 };

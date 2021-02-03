@@ -3,21 +3,60 @@
     <div class="hide-completed__tasks" @click="handleCompletedSwitch">
       Скрыть выполненные
     </div>
+    <div v-for="tag in storeTags" :key="tag.id" class="tags-modal__item">
+      {{ tag.name }}
+    </div>
+    <input
+      v-model="inputTagTask"
+      type="text"
+      placeholder="Введите подзадачу, которую хотите добавить"
+    />
+    <div class="add-tag" @click="handleAddNewTag">
+      <i class="las la-plus-circle"></i>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import { uuid } from '../utils';
 
 export default {
   name: 'AppTags',
+  computed: {
+    ...mapGetters(['storeTags', 'storeInputNewTag']),
+    inputTagTask: {
+      get() {
+        return this.storeInputNewTag;
+      },
+
+      set(value) {
+        this.updateInputTag(value);
+      },
+    },
+  },
   methods: {
     ...mapActions({
       switchCompeltedShowTasksStatus: 'switchCompeltedShowTasksStatus',
+      updateInputTag: 'updateInputTag',
+      addNewTagToTheStore: 'addNewTagToTheStore',
     }),
+
     handleCompletedSwitch() {
-      console.log('click hide');
       this.switchCompeltedShowTasksStatus();
+    },
+
+    handleAddNewTag() {
+      this.addNewTagToTheStore({
+        id: uuid(),
+        name: this.storeInputNewTag,
+        active: false,
+      });
+      this.clearTagInput();
+    },
+
+    clearTagInput() {
+      this.updateInputTag('');
     },
   },
 };

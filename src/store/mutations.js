@@ -39,6 +39,10 @@ const UPDATE_COMPLETED_SUBTASK = (state, subTaskId) => {
   );
 };
 
+const UPDATE_INPUT_TAG = (state, input) => {
+  state.inputTag = input;
+};
+
 const UPDATE_TASK = (state, payload) => {
   state.tasks = state.tasks.map((day) => {
     return {
@@ -194,6 +198,10 @@ const SWITCH_COMPLETED_SHOW_TASKS_STATUS = (state) => {
   }
 };
 
+const ADD_NEW_TAG_TO_THE_STORE = (state, newTag) => {
+  state.tags.push(newTag);
+};
+
 export default {
   UPDATE_INPUT_TASK,
   ADD_NEW_TASK,
@@ -211,4 +219,6 @@ export default {
   UPDATE_COMPLETED_SUBTASK,
   DELETE_SUBTASK_INPUT,
   SWITCH_COMPLETED_SHOW_TASKS_STATUS,
+  UPDATE_INPUT_TAG,
+  ADD_NEW_TAG_TO_THE_STORE,
 };

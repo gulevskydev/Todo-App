@@ -8,6 +8,8 @@ const popupIsOpen = (state) => state.popupIsOpen;
 
 const storeInputSubTask = (state) => state.inputSubTask;
 
+const storeInputNewTag = (state) => state.inputTag;
+
 const storeTags = (state) => state.tags;
 
 const storeInputSubTaskValue = (state) => (id) => {
@@ -34,4 +36,5 @@ export default {
   storeIsTagsPopupOpen,
   editPopupIsOpen,
   editingTask,
+  storeInputNewTag,
 };
