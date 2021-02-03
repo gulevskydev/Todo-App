@@ -130,7 +130,9 @@ export default {
 @tailwind utilities;
 
 .task__container {
-  width: 600px;
+  width: 35%;
+  background-color: blueviolet;
+  margin-left: 10%;
 
   &::selection {
     display: none;

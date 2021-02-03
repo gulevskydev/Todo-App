@@ -24,6 +24,7 @@ const ADD_NEW_TASK = (state, payload) => {
   console.log(state, payload, 'Add new task', state.tasks[0]);
   state.tasks[0].todos.push(payload);
   payload.subTasks.slice(1).forEach(() => state.completedSubtasks.push(false));
+  state.tasks[0].todos.sort((a, b) => a.isCompleted - b.isCompleted);
 };
 
 const UPDATE_COMPLETED_SUBTASK = (state, subTaskId) => {
@@ -131,6 +132,49 @@ const UPDATE_COMPLETED_STATUS = (state, task) => {
       }),
     };
   });
+
+  console.log(
+    state.tasks.map((el) => {
+      console.log(el.todos.sort((a, b) => a.isCompleted - b.isCompleted));
+      return el.todos.sort((a, b) => a.isCompleted - b.isCompleted);
+    }),
+  );
+
+  if (!state.showCompletedTasks) {
+    state.completedTasks = state.tasks.map((day) => {
+      return day.todos.filter((todo) => todo.isCompleted);
+    });
+    state.tasks = state.tasks.map((day) => {
+      return {
+        ...day,
+        todos: day.todos.filter((todo) => !todo.isCompleted),
+      };
+    });
+  }
+};
+
+const SWITCH_COMPLETED_SHOW_TASKS_STATUS = (state) => {
+  if (state.showCompletedTasks) {
+    state.showCompletedTasks = false;
+    state.completedTasks = state.tasks.map((day) => {
+      return day.todos.filter((todo) => todo.isCompleted);
+    });
+    state.tasks = state.tasks.map((day) => {
+      return {
+        ...day,
+        todos: day.todos.filter((todo) => !todo.isCompleted),
+      };
+    });
+  } else {
+    state.showCompletedTasks = true;
+    state.tasks = state.tasks.map((day, i) => {
+      return {
+        ...day,
+        todos: [...day.todos, ...state.completedTasks[i]],
+      };
+    });
+    state.completedTasks = [];
+  }
 };
 
 export default {
@@ -149,4 +193,5 @@ export default {
   UPDATE_COMPLETED_STATUS,
   UPDATE_COMPLETED_SUBTASK,
   DELETE_SUBTASK_INPUT,
+  SWITCH_COMPLETED_SHOW_TASKS_STATUS,
 };

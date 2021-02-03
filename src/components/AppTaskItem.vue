@@ -1,5 +1,5 @@
 <template>
-  <div @dragstart="handleMouseDown($event)">
+  <div @mousedown="handleMouseDown($event)">
     <div class="todo-list draggable-item">
       <div class="todo-container" :class="{ _active: isCompletedTask }">
         <span @click="setTaskCompletedStatus"></span>
@@ -46,7 +46,6 @@ export default {
     ...mapGetters(['tasks']),
 
     isCompletedTask() {
-      console.log('isCompletd');
       const idOfTheTask = this.task.id;
       return this.tasks.some((day) =>
         day.todos.some((todo) => todo.id === idOfTheTask && todo.isCompleted),
@@ -69,7 +68,6 @@ export default {
     },
 
     handleMouseDown(event) {
-      console.log('mouse down', this.isCompletedTask);
       if (this.isCompletedTask) event.preventDefault();
     },
   },

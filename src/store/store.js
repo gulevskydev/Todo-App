@@ -18,10 +18,12 @@ export const store = new Vuex.Store({
       { id: 1, name: 'Работа', active: true },
       { id: 2, name: 'Хобби', active: false },
     ],
+    completedTasks: [],
     isOpenMenuButton: false,
     popupIsOpen: false,
     isTagsPopupOpen: false,
     editPopupIsOpen: false,
+    showCompletedTasks: true,
     editingTask: {},
     tasks: [
       {
