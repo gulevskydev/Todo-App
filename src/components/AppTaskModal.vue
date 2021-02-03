@@ -20,7 +20,7 @@
               type="text"
               placeholder="Введите задачу, которую хотите добавить"
               class="modal-input__input"
-              @keydown.enter="addTask"
+              @keydown.enter="saveTask"
             />
             <span class="underline"></span>
           </div>
@@ -48,7 +48,6 @@
                 type="text"
                 placeholder="Введите подзадачу, которую хотите добавить"
                 class="modal-input__input"
-                @keydown.enter="addTask"
                 @keyup.delete="handleDeleteSubTaskInput($subTaskIndex)"
               />
             </div>
@@ -61,7 +60,6 @@
                   type="text"
                   placeholder="Введите задачу, которую хотите добавить"
                   class="modal-input__input"
-                  @keydown.enter="addTask"
                 />
               </div>
             </div>
@@ -74,11 +72,7 @@
         <!-- All tags wich can be selected -->
         <app-tags-modal :tags="storeTags"></app-tags-modal>
         <!-- Save button -->
-        <div
-          class="add-task__button"
-          @click="saveTask"
-          @keydown.enter="addTask"
-        >
+        <div class="add-task__button" @click="saveTask">
           {{ this.editPopupIsOpen ? 'Сохранить' : 'Добавить' }}
         </div>
       </div>

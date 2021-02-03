@@ -10,6 +10,7 @@
       v-model="inputTagTask"
       type="text"
       placeholder="Введите подзадачу, которую хотите добавить"
+      @keydown.enter="handleAddNewTag"
     />
     <div class="add-tag" @click="handleAddNewTag">
       <i class="las la-plus-circle"></i>
