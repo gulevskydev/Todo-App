@@ -3,7 +3,12 @@
     <div class="hide-completed__tasks" @click="handleCompletedSwitch">
       Скрыть выполненные
     </div>
-    <div v-for="tag in storeTags" :key="tag.id" class="tags-modal__item">
+    <div
+      v-for="tag in storeTags"
+      :key="tag.id"
+      class="tags-modal__item"
+      @click="handleFilteByTaskClick(tag.id)"
+    >
       {{ tag.name }}
     </div>
     <input
@@ -41,6 +46,7 @@ export default {
       switchCompeltedShowTasksStatus: 'switchCompeltedShowTasksStatus',
       updateInputTag: 'updateInputTag',
       addNewTagToTheStore: 'addNewTagToTheStore',
+      filterTasksByTagID: 'filterTasksByTagID',
     }),
 
     handleCompletedSwitch() {
@@ -54,6 +60,10 @@ export default {
         active: false,
       });
       this.clearTagInput();
+    },
+
+    handleFilteByTaskClick(id) {
+      this.filterTasksByTagID(id);
     },
 
     clearTagInput() {

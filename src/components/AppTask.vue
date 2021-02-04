@@ -26,13 +26,18 @@
               draggable
               dragover.prevent
             >
-              <app-task-item :task="task"> </app-task-item>
+              {{ task.tag.id }}
+              <app-task-item
+                v-if="checkIfNeedTofilterByTag(task.tag.id)"
+                :task="task"
+              >
+              </app-task-item>
               <!-- SubTask -->
               <!-- <div v-for="subTask of task.subTasks" :key="subTask.id">
               <app-subtask-item :data="subTask.input"></app-subtask-item>
             </div> -->
             </draggable>
-            <app-task-item v-else :task="task" :key="task.id"> </app-task-item>
+            <!-- <app-task-item v-else :task="task" :key="task.id"> </app-task-item> -->
           </template>
         </container>
       </div>
@@ -87,7 +92,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['tasks']),
+    ...mapGetters(['tasks', 'filterByTag']),
   },
 
   methods: {
@@ -119,6 +124,13 @@ export default {
       if (task.isCompleted) {
         e.preventDefault();
       }
+    },
+
+    checkIfNeedTofilterByTag(id) {
+      if (this.filterByTag) {
+        return this.filterByTag === id;
+      }
+      return true;
     },
   },
 };

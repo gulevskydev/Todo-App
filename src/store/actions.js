@@ -75,6 +75,10 @@ const addNewTagToTheStore = (context, payload) => {
   context.commit('ADD_NEW_TAG_TO_THE_STORE', payload);
 };
 
+const filterTasksByTagID = (context, id) => {
+  context.commit('FILTER_TASK_BY_ID', id);
+};
+
 export default {
   updateInputTask,
   addNewTask,
@@ -95,4 +99,5 @@ export default {
   switchCompeltedShowTasksStatus,
   updateInputTag,
   addNewTagToTheStore,
+  filterTasksByTagID,
 };

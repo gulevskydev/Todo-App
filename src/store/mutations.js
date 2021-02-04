@@ -202,6 +202,16 @@ const ADD_NEW_TAG_TO_THE_STORE = (state, newTag) => {
   state.tags.push(newTag);
 };
 
+/**
+ *
+ * @param {object} state
+ * @param {number} id
+ */
+const FILTER_TASK_BY_ID = (state, id) => {
+  if (state.filterByTag === id) state.filterByTag = '';
+  else state.filterByTag = id;
+};
+
 export default {
   UPDATE_INPUT_TASK,
   ADD_NEW_TASK,
@@ -221,4 +231,5 @@ export default {
   SWITCH_COMPLETED_SHOW_TASKS_STATUS,
   UPDATE_INPUT_TAG,
   ADD_NEW_TAG_TO_THE_STORE,
+  FILTER_TASK_BY_ID,
 };

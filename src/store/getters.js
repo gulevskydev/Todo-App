@@ -13,7 +13,6 @@ const storeInputNewTag = (state) => state.inputTag;
 const storeTags = (state) => state.tags;
 
 const storeInputSubTaskValue = (state) => (id) => {
-  console.log('Store', id, state);
   return state.inputSubTask[id].input;
 };
 
@@ -24,6 +23,11 @@ const storeIsTagsPopupOpen = (state) => {
 const editPopupIsOpen = (state) => state.editPopupIsOpen;
 
 const editingTask = (state) => state.editingTask;
+
+const filterByTag = (state) => {
+  console.log('filter tag', state.filterByTag);
+  return state.filterByTag;
+};
 
 export default {
   storeInputTask,
@@ -37,4 +41,5 @@ export default {
   editPopupIsOpen,
   editingTask,
   storeInputNewTag,
+  filterByTag,
 };
