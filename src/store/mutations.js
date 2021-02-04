@@ -1,7 +1,17 @@
-const UPDATE_INPUT_TASK = (state, payload) => {
-  state.inputTask = payload;
+/**
+ *
+ * @param {Object} state - main store
+ * @param {String} input - input of the task
+ */
+const UPDATE_INPUT_TASK = (state, input) => {
+  state.inputTask = input;
 };
 
+/**
+ *
+ * @param {Object} state  - main store
+ * @param {Object} task  - data to update the task
+ */
 const UPDATE_INPUT_SUB_TASK = (state, { id, input, updateCompletedStatus }) => {
   state.inputSubTask = state.inputSubTask.map((subtask, index) => {
     return index === id
@@ -127,6 +137,12 @@ const POPUP_EDIT_TASK_IS_OPEN = (state, id) => {
   }
 };
 
+/**
+ *
+ * @param {Object} state
+ * @param {Array} task
+ */
+
 const UPDATE_COMPLETED_STATUS = (state, task) => {
   // Change completed status for current task and update the state
   state.tasks = state.tasks.map((day) => {
@@ -160,7 +176,6 @@ const UPDATE_COMPLETED_STATUS = (state, task) => {
 
     // Add new completed task to the store and change the completed status to true
     state.completedTasks[0].push({ ...task, isCompleted: true });
-    console.log(state.completedTasks, 'completed tasks state');
   }
 };
 
@@ -204,8 +219,8 @@ const ADD_NEW_TAG_TO_THE_STORE = (state, newTag) => {
 
 /**
  *
- * @param {object} state
- * @param {number} id
+ * @param {Object} state - main store
+ * @param {Number} id - tag's id of the current task
  */
 const FILTER_TASK_BY_ID = (state, id) => {
   if (state.filterByTag === id) state.filterByTag = '';
