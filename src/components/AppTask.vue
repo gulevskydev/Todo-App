@@ -17,7 +17,7 @@
           group-name="1"
           :get-child-payload="getChildPayload($columnIndex)"
           orientation="vertical"
-          @drop.prevent="onDrop($event, $columnIndex)"
+          @drop="onDrop($event, $columnIndex)"
         >
           <template v-for="task of column.todos">
             <draggable
