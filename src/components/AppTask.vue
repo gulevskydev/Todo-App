@@ -141,7 +141,6 @@ export default {
 @tailwind utilities;
 
 .task__container {
-  width: 35%;
   background-color: blueviolet;
   margin-left: 10%;
 

@@ -41,6 +41,7 @@
                 @click="setTaskCompletedStatus($subTaskIndex)"
               ></span>
               <i v-else class="las la-arrow-right"></i>
+
               <input
                 ref="subtask"
                 :value="storeInputSubTaskValue($subTaskIndex)"
@@ -57,6 +58,7 @@
                 <input
                   :value="storeInputSubTaskValue($subTaskIndex)"
                   @input="handleSubTaskInput($subTaskIndex, $event)"
+                  @keyup.delete="handleDeleteSubTaskInput($subTaskIndex)"
                   type="text"
                   placeholder="Введите задачу, которую хотите добавить"
                   class="modal-input__input"
@@ -159,6 +161,7 @@ export default {
     }),
 
     handleSubTaskInput(id, e, completed = false) {
+      console.log('update subtask');
       this.updateInputSubTask({
         id,
         input: completed ? e : e.target.value,
@@ -225,7 +228,7 @@ export default {
 
     handleDeleteSubTaskInput(index) {
       // Check if it is not last input, because we need stay the last input
-      console.log();
+      console.log(index, 'delete');
       if (
         index + 1 < this.storeInputSubTask.length &&
         !this.storeInputSubTask[index].input.length
