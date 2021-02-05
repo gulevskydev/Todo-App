@@ -11,14 +11,17 @@
     >
       {{ tag.name }}
     </div>
-    <input
-      v-model="inputTagTask"
-      type="text"
-      placeholder="Введите подзадачу, которую хотите добавить"
-      @keydown.enter="handleAddNewTag"
-    />
-    <div class="add-tag" @click="handleAddNewTag">
-      <i class="las la-plus-circle"></i>
+    <div class="tags-modal__input-wrapper">
+      <input
+        v-model="inputTagTask"
+        type="text"
+        placeholder="Добавить тэг"
+        class="tags-modal__input"
+        @keydown.enter="handleAddNewTag"
+      />
+      <div class="add-tag" @click="handleAddNewTag">
+        <i class="las la-plus-circle"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -74,8 +77,53 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/base.scss';
+
+.hide-completed__tasks {
+  margin-bottom: 120px;
+}
+
 .tags-container {
   width: 20%;
   background-color: brown;
+  padding: 30px 20px;
+}
+
+.la-plus-circle {
+  transform: scale(1.3);
+  margin-left: 10px;
+  transition: 0.3s all cubic-bezier(0.075, 0.82, 0.165, 1);
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.5);
+  }
+}
+
+.tags-modal {
+  &__item {
+    margin: 15px 0;
+  }
+
+  &__input {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid transparent;
+    padding: 10px 0;
+    color: $font-color-1;
+    background-color: transparent;
+    border-bottom: 1px solid white;
+    transition: all 0.3s;
+
+    &:focus + .underline {
+      transform: scale(1);
+    }
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+    }
+  }
 }
 </style>
