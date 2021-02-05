@@ -26,18 +26,18 @@
               draggable
               dragover.prevent
             >
-              {{ task.tag.id }}
               <app-task-item
                 v-if="checkIfNeedTofilterByTag(task.tag.id)"
                 :task="task"
               >
               </app-task-item>
-              <!-- SubTask -->
-              <!-- <div v-for="subTask of task.subTasks" :key="subTask.id">
-              <app-subtask-item :data="subTask.input"></app-subtask-item>
-            </div> -->
             </draggable>
-            <!-- <app-task-item v-else :task="task" :key="task.id"> </app-task-item> -->
+            <app-task-item
+              v-else-if="checkIfNeedTofilterByTag(task.tag.id)"
+              :task="task"
+              :key="task.id"
+            >
+            </app-task-item>
           </template>
         </container>
       </div>
@@ -57,7 +57,6 @@ import { Container, Draggable } from 'vue-smooth-dnd';
 import AppTaskItem from './AppTaskItem';
 import AppTaskModal from './AppTaskModal';
 import AppMainButton from './AppMainButton';
-// import AppSubtaskItem from './AppSubtaskItem';
 
 export default {
   name: 'AppTask',
