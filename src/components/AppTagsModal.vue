@@ -7,7 +7,7 @@
     <div class="modal-body">
       <div class="modal-inner">
         <button id="close" class="close" @click.stop="closePopup">
-          <i class="fa fa-times"></i>
+          <i class="las la-times"></i>
         </button>
         <div
           v-for="tag in tags"
@@ -60,7 +60,7 @@ export default {
 </script>
 
 <style styled="scss" scoped>
-@import url('../assets/css/base.scss');
+/* @import url('../assets/css/base.scss'); */
 
 .tags-modal__item {
   width: max-content;
@@ -86,6 +86,15 @@ export default {
   cursor: pointer;
   background: none;
   border: none;
+  z-index: 2;
+}
+
+.las {
+  transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.las:hover {
+  transform: scale(1.3);
 }
 
 .modal-frame {

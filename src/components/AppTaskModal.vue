@@ -7,7 +7,7 @@
     <div class="modal-body" v-click-outside="closePopup">
       <div class="modal-inner">
         <button id="close" class="close" @click="closePopup">
-          <i class="fa fa-times"></i>
+          <i class="las la-times"></i>
         </button>
 
         <div class="modal-title">Новая задача</div>
