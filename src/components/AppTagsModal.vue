@@ -60,7 +60,7 @@ export default {
 </script>
 
 <style styled="scss" scoped>
-/* @import url('../assets/css/base.scss'); */
+@import url('../assets/css/base.scss');
 
 .tags-modal__item {
   width: max-content;

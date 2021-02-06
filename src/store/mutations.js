@@ -31,13 +31,11 @@ const RESET_SUB_TASKS = (state, payload) => {
 };
 
 const ADD_NEW_TASK = (state, payload) => {
-  console.log(state, payload, 'Add new task', state.tasks[0]);
   state.tasks[0].todos.push(payload);
   payload.subTasks.slice(1).forEach(() => state.completedSubtasks.push(false));
   state.tasks[0].todos.sort((a, b) => a.isCompleted - b.isCompleted);
 
   if (!state.showCompletedTasks) {
-    console.log('completed tasks');
     // state.completedTasks[0].push(payload);
     // state.completedTasks[0].push(payload);
   }
@@ -203,7 +201,6 @@ const SWITCH_COMPLETED_SHOW_TASKS_STATUS = (state) => {
      */
     state.showCompletedTasks = true;
     state.tasks = state.tasks.map((day, i) => {
-      console.log('Complted tasks', state.completedTasks[i]);
       return {
         ...day,
         todos: [...day.todos, ...state.completedTasks[i]],

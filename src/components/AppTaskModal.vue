@@ -161,7 +161,6 @@ export default {
     }),
 
     handleSubTaskInput(id, e, completed = false) {
-      console.log('update subtask');
       this.updateInputSubTask({
         id,
         input: completed ? e : e.target.value,
@@ -228,7 +227,6 @@ export default {
 
     handleDeleteSubTaskInput(index) {
       // Check if it is not last input, because we need stay the last input
-      console.log(index, 'delete');
       if (
         index + 1 < this.storeInputSubTask.length &&
         !this.storeInputSubTask[index].input.length
