@@ -13,6 +13,7 @@
           v-for="tag in tags"
           :key="tag.id"
           class="tags-modal__item"
+          :style="`background: ${tag.color.background};`"
           @click.stop="updateActiveTag(tag.id)"
         >
           {{ tag.name }}

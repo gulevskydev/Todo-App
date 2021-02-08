@@ -9,7 +9,7 @@
         <div v-for="color in tagsColors" :key="color.id">
           <div
             class="color-picker"
-            :style="`background-color: ${color['background-color']}; background-image: ${color['background-image']}`"
+            :style="`background: ${color.background}`"
             @click="handleSelectColor(color)"
           ></div>
         </div>
@@ -36,25 +36,19 @@ export default {
       tagsColors: [
         {
           id: 1,
-          'background-color': '#4158D0',
-          'background-image':
-            'linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)',
+          background: 'linear-gradient(to right, #f46b45, #eea849)',
           isActive: true,
         },
 
         {
           id: 2,
-          'background-color': '#85FFBD',
-          'background-image':
-            'linear-gradient(45deg, #85FFBD 0%, #FFFB7D 100%)',
+          background: 'linear-gradient(to right, #673ab7, #512da8)',
           isActive: false,
         },
 
         {
           id: 3,
-          'background-color': '#FBAB7E',
-          'background-image':
-            'linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%)',
+          background: 'linear-gradient(to right, #005c97, #363795)',
           isActive: false,
         },
       ],

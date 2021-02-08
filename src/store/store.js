@@ -17,8 +17,18 @@ export const store = new Vuex.Store({
     completedSubtasks: [false],
     filterByTag: '',
     tags: [
-      { id: 1, name: 'Работа', active: true },
-      { id: 2, name: 'Хобби', active: false },
+      {
+        id: 1,
+        name: 'Работа',
+        active: true,
+        color: { background: 'linear-gradient(to right, #8e0e00, #1f1c18)' },
+      },
+      {
+        id: 2,
+        name: 'Хобби',
+        active: false,
+        color: { background: 'linear-gradient(to right, #76b852, #8dc26f)' },
+      },
     ],
     completedTasks: [],
     isOpenMenuButton: false,
