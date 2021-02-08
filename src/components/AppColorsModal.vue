@@ -67,6 +67,11 @@ export default {
     },
 
     handleSelectColor(selectedColor) {
+      this.updateSelectedColor(selectedColor);
+      this.$emit('selectColor', selectedColor);
+    },
+
+    updateSelectedColor(selectedColor) {
       this.tagsColors = this.tagsColors.map((color) => {
         return color.id === selectedColor.id
           ? { ...color, isActive: true }

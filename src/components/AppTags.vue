@@ -26,6 +26,7 @@
     <app-colors-modal
       :is-open="isOpenColorsPopup"
       @closePopup="handleClosePopup"
+      @selectColor="handleSelectColor"
     ></app-colors-modal>
   </div>
 </template>
@@ -43,6 +44,7 @@ export default {
   data() {
     return {
       isOpenColorsPopup: false,
+      activeColor: '',
     };
   },
 
@@ -76,6 +78,7 @@ export default {
         id: uuid(),
         name: this.storeInputNewTag,
         active: false,
+        color: this.activeColor,
       });
       this.clearTagInput();
     },
@@ -94,6 +97,12 @@ export default {
 
     handleClosePopup() {
       this.isOpenColorsPopup = false;
+    },
+
+    handleSelectColor(color) {
+      console.log(color);
+      this.activeColor = color;
+      this.handleClosePopup();
     },
   },
 };
