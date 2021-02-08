@@ -19,19 +19,33 @@
         class="tags-modal__input"
         @keydown.enter="handleAddNewTag"
       />
-      <div class="add-tag" @click="handleAddNewTag">
+      <div class="add-tag" @click="handleOpenColors">
         <i class="las la-plus-circle"></i>
       </div>
     </div>
+    <app-colors-modal
+      :is-open="isOpenColorsPopup"
+      @closePopup="handleClosePopup"
+    ></app-colors-modal>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { uuid } from '../utils';
+import AppColorsModal from './AppColorsModal';
 
 export default {
   name: 'AppTags',
+
+  components: { AppColorsModal },
+
+  data() {
+    return {
+      isOpenColorsPopup: false,
+    };
+  },
+
   computed: {
     ...mapGetters(['storeTags', 'storeInputNewTag']),
     inputTagTask: {
@@ -44,6 +58,7 @@ export default {
       },
     },
   },
+
   methods: {
     ...mapActions({
       switchCompeltedShowTasksStatus: 'switchCompeltedShowTasksStatus',
@@ -71,6 +86,14 @@ export default {
 
     clearTagInput() {
       this.updateInputTag('');
+    },
+
+    handleOpenColors() {
+      this.isOpenColorsPopup = true;
+    },
+
+    handleClosePopup() {
+      this.isOpenColorsPopup = false;
     },
   },
 };
