@@ -331,7 +331,7 @@ export default {
 .modal-body {
   width: 600px;
   border-radius: 3px;
-  background: $bg-color-2;
+  background: $bg-color-3;
   position: absolute;
   height: 500px;
   margin-top: -10%;

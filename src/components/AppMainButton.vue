@@ -217,22 +217,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content {
+  position: absolute;
+  right: -168px;
+  bottom: -10px;
+}
 .menu {
   width: 300px;
   height: 200px;
-  margin: 0 auto 100px;
+  margin: 0;
   position: relative;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   &-wrapper {
     position: absolute;
-    left: 50%;
+    right: 40%;
     bottom: 10px;
   }
   &-toggle-button,
   &-item-bounce,
   &-item-button {
-    background: #4f4f64;
+    background: #bb86fc;
     border-radius: 50%;
     width: 80px;
     height: 80px;

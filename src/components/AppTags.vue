@@ -85,7 +85,7 @@ export default {
 
 .tags-container {
   width: 20%;
-  background-color: brown;
+  background-color: $bg-color-2;
   padding: 30px 20px;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="task__container flex justify-center flex-col items-start px-12">
-    <div>
+    <div class="task__modal-wrapper">
       <!-- Days -->
       <div
         v-for="(column, $columnIndex) of tasks"
@@ -41,9 +41,8 @@
           </template>
         </container>
       </div>
+      <app-main-button></app-main-button>
     </div>
-
-    <app-main-button></app-main-button>
 
     <app-task-modal></app-task-modal>
   </div>
@@ -136,12 +135,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/base.scss';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .task__container {
-  background-color: blueviolet;
+  background-color: $bg-color-2;
   margin-left: 10%;
 
   &::selection {
@@ -167,5 +167,9 @@ export default {
 
 button:focus {
   outline: none;
+}
+
+.task__modal-wrapper {
+  position: relative;
 }
 </style>
