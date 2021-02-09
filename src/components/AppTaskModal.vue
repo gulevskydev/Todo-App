@@ -68,7 +68,11 @@
           </div>
         </div>
         <!-- Active tag of the task -->
-        <div class="modal-input__tags" @click="openTagsPopup">
+        <div
+          class="modal-input__tags"
+          :style="`background: ${activeTag.color.background};`"
+          @click="openTagsPopup"
+        >
           {{ activeTag.name }}
         </div>
         <!-- All tags wich can be selected -->

@@ -11,7 +11,12 @@
         </div>
 
         <div class="todo__options">
-          <div class="todo__task-tag">{{ task.tag.name }}</div>
+          <div
+            class="todo__task-tag"
+            :style="`background: ${task.tag.color.background};`"
+          >
+            {{ task.tag.name }}
+          </div>
           <i
             class="fa fa-pencil-square-o"
             aria-hidden="true"
