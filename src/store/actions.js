@@ -27,7 +27,6 @@ const changeMenuOpenStatus = (context) => {
 };
 
 const popupIsOpen = (context) => {
-  console.log('Open popup default');
   context.commit('POPUP_IS_OPEN');
 };
 
