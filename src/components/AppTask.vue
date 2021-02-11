@@ -110,7 +110,7 @@ export default {
     },
 
     onDropReady(dropResult) {
-      console.log('drop ready', dropResult);
+      // console.log('drop ready', dropResult);
     },
 
     getChildPayload(col) {
