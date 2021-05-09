@@ -1,4 +1,4 @@
-# todo-app
+# App.di
 
 ## Project setup
 ```
