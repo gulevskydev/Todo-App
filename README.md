@@ -1,4 +1,4 @@
-# App.di
+# App.do
 
 ## Project setup
 ```
